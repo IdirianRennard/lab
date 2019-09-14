@@ -1,0 +1,173 @@
+
+/*  Classes Alphabetically */
+
+.button {
+  font-weight: bold;
+  padding: .5em;
+  text-align: center;
+  border-radius: 25px;
+  border-color: #003D6B;
+  background: #f0f0f0;
+  color: #003D6B;
+  text-transform: uppercase;
+}
+
+.button:hover {
+  border-color: white;
+  background: #003D6B;
+  color: white;
+}
+
+.hover-content {
+    display: none;
+    position: absolute;
+    background-color: silver;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 25px;
+    border-width: thin;
+    border-style: solid;
+    border-color: #003D6B;
+    color: #003D6B;
+    padding: 7px;
+}
+
+.hover-content a {
+    color: #003D6B;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.menu_link:hover {
+  color: white;
+  background-color: #003D6B;
+  border-radius: 25px;
+  text-decoration: underline;
+}
+
+.nav {
+  padding: 1em;
+  margin: -1em;
+  margin-left: 1em;
+  width: 15em;
+  text-align: center;
+  text-decoration: underline;
+  border-radius: 25px;
+  background: silver;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border-color: #003D6B;
+  color: #003D6B;
+}
+
+.nav:hover {
+  width: 15em;
+  text-align: center;
+  border-color: silver;
+  background: #003D6B;
+  color: white;
+}
+
+.nav_menu {
+  color: #003D6B;
+}
+
+.nav_table {
+  padding: 1em;
+  margin: -1em;
+  margin-right: 1em;
+  width: 100%;
+  text-align: center;
+  text-decoration: underline;
+  border-radius: 25px;
+  background: silver;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border-radius: 25px;
+  border-color: #003D6B;
+  border-style: outset;
+  border-width: 5px;
+  color: #003D6B;
+}
+
+.nav_table_button {
+  padding: 1em;
+  margin: -1em;
+  margin-right: 1em;
+  width: 100%;
+  text-align: center;
+  text-decoration: underline;
+  border-radius: 25px;
+  background: silver;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border-radius: 25px;
+  border-color: #003D6B;
+  border-style: outset;
+  border-width: 5px;
+  color: #003D6B;
+}
+
+.nav_table_button:hover {
+  color: white;
+  text-decoration: none;
+  background: #003D6B;
+  border-color: white;
+  text-transform: uppercase;
+}
+
+.table {
+  position: relative;
+  top: -1.62em;
+  right: 1.25em;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: .5em;
+  padding-bottom: .5em;
+  margin-top: 2em;
+  margin-left: 2em;
+  margin-right: 2em;
+  /*width: 80%;*/
+  max-width: 80%;
+  text-align: left;
+  border-radius: 25px;
+  background: silver;
+  color: #003D6B;
+  border-color: #003D6B;
+  border-width: thick;
+  border-style: inset;
+}
+
+.titlebar {
+  position: relative;
+  top: -1.62em;
+  right: 1.25em;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: .5em;
+  padding-bottom: .5em;
+  margin-top: 2em;
+  margin-left: 2em;
+  margin-right: 2em;
+  text-align: center;
+  border-radius: 25px;
+  border-color: #003D6B;
+  border-style: outset;
+  border-width: 5px;
+  background: silver;
+  color: #003D6B;
+  font-size: 300%;
+  width: 80%;
+}
+
+/* Elements Alphabetically */
+
+a {
+  color: #003D6B;
+}
+
+a:visted {
+  color: #003D6B;
+}

@@ -1,0 +1,165 @@
+
+/*  Classes Alphabetically */
+.chr_slider round {
+  border-radius: 34px;
+}
+
+.chr_slider round:before {
+  border-radius: 50%;
+}
+
+.chr_switch {
+  position: relative;
+  display: inline-grd;
+  margin: 5%;
+  width: 30px;
+  height: 17px;
+}
+
+.down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+.drop {
+  text-align: left;
+  background: white;
+  color: black;
+}
+
+.err {
+  padding: 1em;
+  margin: 2em;
+  text-align: left;
+  background: #ffeeee;
+  border-radius: 25px;
+  color: red;
+  border-color: red;
+  border-style: solid;
+  border-width: 100%;
+}
+
+.menu_link {
+  margin: -5px;
+}
+
+.navbar {
+  position: absolute;
+  top: 2em;
+  left: 1em;
+}
+
+.right_nav {
+  position: absolute;
+  width: 16%;
+  top: 2em;
+  right: 1em;
+}
+
+ .upload {
+  background: #003D6B;
+  color: white;
+}
+
+.switch {
+  position: relative;
+  display: inline-grd;
+  margin: 5%;
+  width: 30px;
+  height: 17px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  left: -8px;
+  top: 1%;
+  bottom: 1%;
+  padding: 3px;
+  width: 25px;
+  background-color: black;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 2px;
+  top: 3px;
+  bottom: 1%;
+  background-color: white;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(13px);
+  -ms-transform: translateX(13px);
+  transform: translateX(13px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+/* End of Classes */
+
+/* Elements Alphabetically */
+
+body {
+  background: url(../paper.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+i {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+}
+
+/* End of Classes */
+
+/* IDs Alphabetically */
+
+#General_Testing #Helpful_Links #WPS-drop #NVP-drop #Pro-drop #REST-drop #JSv4-drop{
+    position: inherit;
+    display: inline-block;
+    top: 15%;
+    border-radius: 25px;
+}
+
+#test {
+  background: url(../test-paper.jpg);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+/* End of IDs */
