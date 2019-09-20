@@ -5,7 +5,7 @@ $enviroment = $_POST['enviroment'];
 unset ( $_POST['enviroment'] );
 
 if( $enviroment == 'live') {
-  $endpoint = 'https://payflowpro.paypal.com:443';
+  $endpoint = 'https://payflowpro.paypal.com';
 } else {
   $endpoint = 'https://pilot-payflowpro.paypal.com';
 }
@@ -20,8 +20,8 @@ for ($i = 0 ; $i < 24 ; $i++) {
   $request_id .= $characters[mt_rand(0, strlen($characters) - 1)];
 }
 
-//$headers[] = "X-VPS-REQUEST-ID: " . $request_id;
-$headers[] = "PAYPAL-NVP:Y";
+$headers[] = "X-VPS-REQUEST-ID: $request_id";
+//$headers[] = "PAYPAL-NVP:Y";
 
 
 switch ( $_POST['TRXTYPE'] ) {
@@ -34,8 +34,33 @@ switch ( $_POST['TRXTYPE'] ) {
       'TRXTYPE' => $_POST['TRXTYPE'],
       'VERBOSITY' => $_POST['VERBOSITY'],
       'ORIGID' => $_POST['ORIGID'],
+      'AMT' => $_POST['AMT'],
       //'TENDER' => $_POST['TENDER'],
-      'COMMENT1' => 'TEST OF CREDIT/REFUND',
+      //'COMMENT1' => 'TEST OF CREDIT/REFUND',
+    ];
+  break;
+  
+  case 'NRC':
+    $data = [
+      'PARTNER'             =>  $_POST['PARTNER'],
+      'VENDOR'              =>  $_POST['VENDOR'],
+      'USER'                =>  $_POST['USER'],
+      'PWD'                 =>  $_POST['PWD'],
+      'TRXTYPE'             =>  'C',
+      'ACCT'                =>  $_POST['ACCT'],
+      'CVV2'                =>  '456',
+      'EXPDATE'             =>  $_POST['EXPDATE'],
+      'VERBOSITY'           =>  $_POST['VERBOSITY'],
+      'AMT'                 =>  $_POST['AMT'],
+      'CURRENCY'            =>  $_POST['CURRENCY'],
+      'BILLTOFIRSTNAME'     =>  $_POST['BILLTOFIRSTNAME'],
+      'BILLTOLASTNAME'      =>  $_POST['BILLTOLASTNAME'],
+      'BILLTOSTREET'        =>  $_POST['STREET'],
+      'BILLTOCITY'          =>  $_POST['CITY'],
+      'BILLTOZIP'           =>  $_POST['ZIP'],
+      'BILLTOCOUNTRY'       =>  'USA',
+      'INVNUM'              =>  $request_id,
+      'TENDER'              =>  $_POST['TENDER'],
     ];
   break;
 
@@ -61,22 +86,15 @@ switch ( $_POST['TRXTYPE'] ) {
   break;
 }
 
-$data['L_NAME0'] = 'Header Test';
+/*$data['L_NAME0'] = 'Header Test';
 $data['L_DESC0'] = 'Header Test Desc';
-$data['L_AMT0'] = $_POST['AMT'];
+$data['L_AMT0'] = $_POST['AMT'];*/
 
 ksort( $data );
 
 $myvars = urldecode( http_build_query( $data ) );
 
-$ch = curl_init();
-curl_setopt( $ch, CURLOPT_URL, $endpoint );
-curl_setopt( $ch, CURLOPT_POST, 1 );
-curl_setopt( $ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars );
-curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-
-$resp = curl_exec( $ch );
+$resp = nvp_api( $endpoint, $myvars );
 
 $resp_str = $resp;
 

@@ -5,8 +5,6 @@ class data {
 
 };
 
-$return_file_path = 'https://localhost' . rtrim(  $_SERVER['PHP_SELF'], basename( $_SERVER['PHP_SELF'] ) ) ;
-
 $enviroment = $_POST['enviroment'];
 unset( $_POST['enviroment'] );
 
@@ -152,8 +150,15 @@ if ( $payment_method === 'credit_card' ) {
   </tr>
   <?php
     if ( isset( $redirect ) ) {
+      echo "<tr><td><br></td></tr>";
+      echo "<tr>";
+        echo "<td>REDIRECT URL:</td>";
+        echo "<td></td>";
+        echo "<td>$redirect</td>";
+      echo "</tr>";
       echo "<tr><td colspan='42'><hr></td></tr>";
-      echo "<tr><td colspan='42' align='right'><a href='$redirect'><input type='submit' class='button' value='redirect'></a></td></tr>";
+      echo "<tr><td colspan='42' align='right'><a href='$redirect' target='_blank'><input type='submit' class='button' value='redirect'></a></td></tr>";
+      echo "<script>console.log( 'REDIRECT URL : $redirect' )</script>";
     }
   ?>
 </table>

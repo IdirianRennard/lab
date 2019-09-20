@@ -195,8 +195,15 @@ $redirect = $result->links[1]->href;
     </tr>
     <?php
     if ( isset( $result->links[1]->href ) ) {
+        echo "<tr><td><br></td></tr>";
+        echo "<tr>";
+            echo "<td>REDIRECT URL:</td>";
+            echo "<td></td>";
+            echo "<td>$redirect</td>";
+        echo "</tr>";
         echo "<tr><td colspan='42'><hr></td></tr>";
         echo "<tr><td colspan='42' align='right'><a href='$redirect' target='_blank'><input type='submit' class='button' value='Redirect'></a></td></tr>";
+        echo "<script>console.log( 'REDIRECT URL : $redirect' )</script>";
     }
     ?>
 </table>

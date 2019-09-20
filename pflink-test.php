@@ -41,12 +41,7 @@ ksort( $data );
 
 $myvars = urldecode( http_build_query( $data ) );
 
-$ch = curl_init( $endpoint );
-curl_setopt( $ch, CURLOPT_POST, 1);
-curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
-curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1);
-
-$resp = curl_exec( $ch );
+$resp = nvp_api( $endpoint, $myvars );
 
 $resp_string = $resp;
 
@@ -60,6 +55,7 @@ $token = [
 $token = urldecode( http_build_query ( $token ) );
 
 $iframe_url = "$page?$token";
+echo "<script>console.log( 'IFRAME URL : $iframe_url' )</script>";
 
 ksort( $resp );
 ?>

@@ -2,17 +2,18 @@
 include 'include.php';
 
 $trx_type = [
-  'A' => 'Authorization',
-  'B' => 'Balance Inquiry',
-  'C' => 'Credit (Refund)',
-  'D' => 'Delayed Capture',
-  'F' => 'Voice Authorization',
-  'I' => 'Inquiry',
-  'K' => 'Rate Lookup',
-  'L' => 'Data Upload',
-  'N' => 'Duplicate Transaction',
-  'S' => 'Sale',
-  'R' => 'Recurring Billing - Inquiry',
+  'A'   =>  'Authorization',
+  'B'   =>  'Balance Inquiry',
+  'C'   =>  'Credit (Refund)',
+  'D'   =>  'Delayed Capture',
+  'F'   =>  'Voice Authorization',
+  'I'   =>  'Inquiry',
+  'K'   =>  'Rate Lookup',
+  'L'   =>  'Data Upload',
+  'N'   =>  'Duplicate Transaction',
+  'S'   =>  'Sale',
+  'R'   =>  'Recurring Billing - Inquiry',
+  'NRC' =>  'Credit (Non-Referenced)',
 ];
 
 asort( $trx_type );
@@ -23,11 +24,11 @@ asort( $trx_type );
   <table class='table'>
     <tr><td>Partner:</td><script>spaces(4)</script><td><input class='drop' type="text" name="PARTNER" value="<?php echo $credentials['PF_PARTNER']; ?>" ></td></tr>
     <tr><td><br></td></tr>
-    <tr><td>Vendor:</td><td></td><td><input type="text" class='drop' name="VENDOR" value="<?php echo $credentials['PF_VENDOR']; ?>"></td></tr>
+    <tr><td>Vendor:</td><td></td><td><input type="text" class='drop' name="VENDOR" value="<?php echo $credentials['BRAD_VENDOR']; ?>"></td></tr>
     <tr><td><br></td></tr>
-    <tr><td>User:</td><td></td><td><input type="text" name="USER" class='drop' value="<?php echo $credentials['PF_USER']; ?>" ></td></tr>
+    <tr><td>User:</td><td></td><td><input type="text" name="USER" class='drop' value="<?php echo $credentials['BRAD_USER']; ?>" ></td></tr>
     <tr><td><br></td></tr>
-    <tr><td>Password:</td><td></td><td><input type="password" name="PWD" class='drop' value="<?php echo $credentials['PF_PWD']; ?>" ></td></tr>
+    <tr><td>Password:</td><td></td><td><input type="password" name="PWD" class='drop' value="<?php echo $credentials['BRAD_PWD']; ?>" ></td></tr>
     <tr><td><br></td></tr>
     <tr>
       <td>Transaction Type:</td>
@@ -63,7 +64,7 @@ asort( $trx_type );
     </select></td></tr>
     <tr>
       <td colspan='42'><hr></td>
-      <input type="hidden" name="ACCT" value="4024007139580582">
+      <input type="hidden" name="ACCT" value="5105105105105100">
       <input type="hidden" name="EXPDATE" value=<?php echo date( 'm' ) . ( date( 'y' ) + 3 ); ?>>
       <input type="hidden" name="DISABLERECEIPT" value="true">
       <input type="hidden" name="BILLTOFIRSTNAME" value="John">
@@ -71,7 +72,6 @@ asort( $trx_type );
       <input type="hidden" name="BILLTOSTREET" value="123 Fake St">
       <input type="hidden" name="BILLTOCITY" value="SCHENECTADY">
       <input type="hidden" name="TENDER" value="C">
-      <input type="hidden" name="CURRENCY" value="840">
       <input type="hidden" name="STATE" value="NY">
       <input type="hidden" name="STREET" value="123 Fake St">
       <input type="hidden" name="CITY" value="SCHENECTADY">
