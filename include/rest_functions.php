@@ -9,17 +9,32 @@ function console ( $array ) {
 }
 
 function nvp_api ( $endpoint, $data ) {
+
+  $request_id = "RENNARD-";
+
+  $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+  for ($i = 0 ; $i < 24 ; $i++) {
+    $request_id .= $characters[mt_rand(0, strlen($characters) - 1)];
+  }
+
+  $headers[] = "X-VPS-REQUEST-ID: $request_id";
+
+  foreach( $headers as $k => $v ) {
+    echo "<script>console.log( '$v' )</script>";
+  }
   
   $ch = curl_init();
 
   curl_setopt( $ch, CURLOPT_URL, $endpoint );
+  curl_setopt( $ch, CURLOPT_HTTPHEADER, $headers);
   curl_setopt( $ch, CURLOPT_POST, true );
   curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
   curl_setopt( $ch, CURLOPT_HEADER, true );
   if ( $data === NULL ) {
     
   } else {
-    echo "<script>console.log( '$data' )</script>";
+    echo "<script>console.log( \"DATA : $data\" )</script>";
     curl_setopt( $ch, CURLOPT_POSTFIELDS, $data );
   }
   
@@ -39,17 +54,16 @@ function nvp_api ( $endpoint, $data ) {
     if ( !isset($middle[1]) ) { $middle[1] = null; }
     $headers[trim($middle[0])] = trim($middle[1]);
   } 
-
   
   $console = [
     'HTTP CODE'       =>  $http_code,
-    'RESPONSE'        =>  strstr( $resp, 'TIMESTAMP' ),
+    'RESPONSE'        =>  strstr( $resp, 'RESULT' ),
     'PAYPAL-DEBUG-ID' =>  $headers['Paypal-Debug-Id']
   ];
 
   console ( $console );
 
-  return $resp;
+  return $console['RESPONSE'];
 }
 
 function rest_oauth ( $clientid, $secret, $env ) {

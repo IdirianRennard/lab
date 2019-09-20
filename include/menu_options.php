@@ -91,11 +91,12 @@ asort( $wps );
 $menu_options['WPS'] = $wps;
 
 $jsv4 = [
-  'jsv4-client'     =>  "Client Side",
-  'jsv4-server'     =>  "Server Side",
-  'jsv4-v2-client'  =>  "v2 Client",
-  'jsv4-v2-server'  =>  "v2 Server",
-  'ppcp-v2-spb'     =>  "PPCP v2 Server",
+  'jsv4-client'         =>  "Client Side",
+  'jsv4-server'         =>  "Server Side",
+  'jsv4-v2-client'      =>  "v2 Client",
+  'jsv4-v2-server'      =>  "v2 Server",
+  'ppcp-v2-spb'         =>  "PPCP v2 Server",
+  'jsv4-v2-server-nvp'  =>  "v2 Server w/ NVP",
 ];
 
 asort( $jsv4 );
