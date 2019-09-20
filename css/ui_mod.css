@@ -18,6 +18,22 @@
   color: white;
 }
 
+.chr_nav_table {
+  padding: 4%;
+  width: 100%;
+  text-align: center;
+  text-decoration: underline;
+  border-radius: 25px;
+  background: silver;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border-radius: 25px;
+  border-color: #003D6B;
+  border-style: outset;
+  border-width: 5px;
+  color: #003D6B;
+}
+
 .hover-content {
     display: none;
     position: absolute;
@@ -75,9 +91,7 @@
 }
 
 .nav_table {
-  padding: 1em;
-  margin: -1em;
-  margin-right: 1em;
+  padding: 1%;
   width: 100%;
   text-align: center;
   text-decoration: underline;
@@ -93,9 +107,7 @@
 }
 
 .nav_table_button {
-  padding: 1em;
-  margin: -1em;
-  margin-right: 1em;
+  padding: 1%;
   width: 100%;
   text-align: center;
   text-decoration: underline;
@@ -142,15 +154,10 @@
 
 .titlebar {
   position: relative;
-  top: -1.62em;
-  right: 1.25em;
   padding-left: 1em;
   padding-right: 1em;
   padding-top: .5em;
   padding-bottom: .5em;
-  margin-top: 2em;
-  margin-left: 2em;
-  margin-right: 2em;
   text-align: center;
   border-radius: 25px;
   border-color: #003D6B;
