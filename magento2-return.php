@@ -46,12 +46,7 @@ ksort( $data );
 
 $myvars = urldecode( http_build_query( $data ) );
 
-$ch = curl_init( $endpoint );
-curl_setopt( $ch, CURLOPT_POST, 1);
-curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
-curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1);
-
-$resp = curl_exec( $ch );
+$resp = nvp_api( $endpoint, $myvars );
 
 parse_str( $resp, $resp_arr );
 
@@ -68,12 +63,7 @@ $void_data = [
 
 $void_vars = urldecode( http_build_query( $void_data ) );
 
-$ch = curl_init( $endpoint );
-curl_setopt( $ch, CURLOPT_POST, 1);
-curl_setopt( $ch, CURLOPT_POSTFIELDS, $void_vars);
-curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1);
-
-$void_resp = curl_exec( $ch );
+$void_resp = nvp_api( $endpoint, $void_vars );
 
 parse_str( $void_resp, $void_resp_arr );
 

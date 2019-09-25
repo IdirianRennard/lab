@@ -15,8 +15,7 @@ if( $enviroment == 'live') {
     
 } else {
     $endpoint = 'https://pilot-payflowpro.paypal.com';
-    $page = 'https://pilot-payflowlink.paypal.com';
-    
+    $page = 'https://pilot-payflowlink.paypal.com';   
 }
 
 
@@ -46,18 +45,11 @@ foreach( $_POST as $k => $v ) {
     $data["$k"] = $v;
 }
 
-//$data['CURRENCY'] = 'USD';
-
 ksort( $data );
 
 $myvars = urldecode( http_build_query( $data ) );
 
-$ch = curl_init( $endpoint );
-curl_setopt( $ch, CURLOPT_POST, 1);
-curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
-curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1);
-
-$resp = curl_exec( $ch );
+$resp = nvp_api( $endpoint, $myvars );
 
 $resp_str = $resp;
 
@@ -67,7 +59,6 @@ $pp_secure_token = $resp['SECURETOKEN'];
 $pp_secure_token_id = $resp['SECURETOKENID'];
 
 $iframe_url = "$page?SECURETOKEN=$pp_secure_token&SECURETOKENID=$pp_secure_token_id";
-//$iframe_url = $return_file_path . "test.php?m=post";
 
 ?>
 <table class='table'>

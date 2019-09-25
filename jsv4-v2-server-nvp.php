@@ -64,7 +64,7 @@ $intent = [
 
 asort( $intent );
 
-$return_url = $return_file_path . 'rest_payments_return.php';
+//$return_url = $return_file_path . 'rest_payments_return.php';
 
 ?>
 <div id='check'></div>
@@ -87,9 +87,21 @@ $return_url = $return_file_path . 'rest_payments_return.php';
   </tr>
   <tr><td><br></td></tr>
   <tr>
-    <td>Secret:</td>
+    <td>API Username:</td>
     <td></td>
-    <td colspan='42'><textarea name='secret' class='drop' cols="42" rows="2"><?php echo $credentials['REST_SECRET']; ?></textarea></td>
+    <td><input type='text' name='USER' value='<?php echo $credentials['API_USER']; ?>'></td>
+  </tr>
+  <tr><td><br></td></tr>
+  <tr>
+    <td>API Password:</td>
+    <td></td>
+    <td><input type='text' name='PWD' value='<?php echo $credentials['API_PWD']; ?>'></td>
+  </tr>
+  <tr><td><br></td></tr>
+  <tr>
+    <td>API Signature:</td>
+    <td></td>
+    <td><input type='text' name='SIG' value='<?php echo $credentials['API_SIG']; ?>'></td>
   </tr>
   <tr><td><br></td></tr>
   <tr>
