@@ -1,14 +1,64 @@
 <?php
 
-function console ( $array ) {
-  foreach( $array as $k => $v ) {
-    if ( isset( $v ) ) {
-      echo "<script>console.log ( '$k : $v' )</script>";
+function console ( $value ) {
+  if ( is_array( $value ) ) {
+    foreach( $value as $k => $v ) {
+      if ( isset( $v ) ) {
+        echo "<script>console.log ( '$k : $v' )</script>";
+      }
+    } 
+  } else {
+    echo "<script>console.log( '$value' )</script>";
+  }
+}
+
+$currency = [
+  'AUD',
+  'BRL',
+  'CAD',
+  'CZK',
+  'DKK',
+  'EUR',
+  'HKD',
+  'HUF',
+  'ILS',
+  'JPY',
+  'MYR',
+  'MXN',
+  'NOK',
+  'NZD',
+  'PHP',
+  'PLN',
+  'GBP',
+  'SGD',
+  'SEK',
+  'CHF',
+  'TWD',
+  'THB',
+  'USD',
+];
+
+function currency_dropdown() {
+  global $currency;
+
+  $message = "<select class='drop' name='CURRENCY'>";
+
+  foreach ( $currency as $k => $v ) {
+    if ( $v == 'USD' ) {
+      $message .= "<option value='$v' selected>$v</option>";
+    } else {
+      $message .= "<option value='$v'>$v</option>";
     }
-  } 
+  }
+
+  $message .= "</select>";
+
+  return $message;
 }
 
 function nvp_api ( $endpoint, $data ) {
+
+  echo "<script>console.log( 'ENDPOINT : $endpoint' )</script>";
 
   $request_id = "RENNARD-";
 
@@ -55,11 +105,24 @@ function nvp_api ( $endpoint, $data ) {
     $headers[trim($middle[0])] = trim($middle[1]);
   } 
   
+  if ( strstr( $resp, 'RESULT' ) == '' ) {
+    $result = strstr( $resp, 'TOKEN' );
+  } else {
+    if ( strstr( $resp, 'RESULT' ) == '' ) {
+      $result = strstr( $resp, 'RESULT' );
+    } else {
+      $result = strstr( $resp, 'TIMESTAMP' );
+    }
+  }
+
   $console = [
-    'HTTP CODE'       =>  $http_code,
-    'RESPONSE'        =>  strstr( $resp, 'RESULT' ),
-    'PAYPAL-DEBUG-ID' =>  $headers['Paypal-Debug-Id']
+    'HTTP CODE' =>  $http_code,
+    'RESPONSE'  =>  $result,
   ];
+
+  if ( isset ( $headers['Paypal-Debug-Id'] ) ) {
+    $console[ 'PAYPAL-DEBUG-ID' ] = $headers['Paypal-Debug-Id'];
+  }
 
   console ( $console );
 
@@ -164,5 +227,17 @@ function rest_api ( $endpoint, $data, $token ) {
    
   return $console['RESPONSE'];
 }
+
+function state_dropdown() {
+  $us_state_abbrevs = array('AL', 'AK', 'AS', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FM', 'FL', 'GA', 'GU', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MH', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'MP', 'OH', 'OK', 'OR', 'PW', 'PA', 'PR', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VI', 'VA', 'WA', 'WV', 'WI', 'WY', 'AE', 'AA', 'AP');
+ 
+  echo "<select name='STATE' required>";
+  echo "<option selected disabled>State</option>";
+  foreach ( $us_state_abbrevs as $k => $v ) {
+    echo "<option value='$v'>$v</option>";
+  }
+  echo "</select>";
+}
+
 
 ?>

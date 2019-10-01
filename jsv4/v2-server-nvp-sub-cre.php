@@ -14,31 +14,30 @@ if ( $dt['env'] == 'sandbox' ) {
 }
 
 $data = [
-    'USER'                            =>  $dt[ 'user' ],
-    'PWD'                             =>  $dt[ 'pwd' ],
-    'SIGNATURE'                       =>  $dt[ 'sig' ],
-    'PAYMENTREQUEST_0_PAYMENTACTION'  =>  $dt[ 'action' ],
-    'VERSION'                         =>  '124',
-    'AMT'                             =>  $dt[ 'amt' ],
-    'METHOD'                          =>  'SetExpressCheckout',
-    'SOLUTIONTYPE'                    =>  'Sole',
-    'IPADDRESS'                       =>  $dt[ 'ip' ],
-    "COUNTRYCODE"                     =>  "US",
-    "LANDINGPAGE"                     =>  "Billing",
-    "ReqBillingAddress"               =>  '0',
-    "NoShipping"                      =>  '0',
-    "AddressOverride"                 =>  '0',
-    'L_PAYMENTTYPE0'                  =>  'InstantOnly',
-    'VERBOCITY'                       =>  'high',
-    'NOTIFYURL'                       =>  'https://houserennard.online/idirian/ipn/ipn.php',
-    'RETURNURL'                       =>  $dt[ 'return' ],
-    'CANCELURL'                       =>  $dt[ 'cancel' ],
-    'PAYMENTREQUEST_0_AMT'            =>  $dt[ 'amt' ],
-    'PAYMENTREQUEST_0_ITEMAMT'        =>  $dt[ 'amt' ],
-    'PAYMENTREQUEST_0_CURRENCYCODE'   =>  $dt[ 'cur' ],
+    'METHOD'                            =>  'SetExpressCheckout',
+    'RETURNURL'                         =>  $dt[ 'return' ],
+    'CANCELURL'                         =>  $dt[ 'cancel' ],
+    'NOTIFYURL'                         =>  'https://houserennad.online/ipn/ipn.php',
+    'NOSHIPPING'                        =>  '0',
+    'SOLUTIONTYPE'                      =>  'SOLE',
+    'LANDINGPAGE'                       =>  'Billing',
+    'L_BILLINGTYPE0'                    =>  'RecurringPayments',
+    'L_BILLINGAGREEMENTDESCRIPTION0'    =>  'House Rennard NVP Recurring Test',
+    'PAYMENTREQUEST_0_AMT'              =>  $dt[ 'amt' ],
+    'PAYMENTREQUEST_0_CURRENCYCODE'     =>  $dt[ 'cur'],
+    'PAYMENREQUEST_0_DESC'              =>  'Idirian Recurring EC NVP',
+    'PAYMENREQUEST_0_CUSTOM'            =>  'Idirian custom variable test!',
+    'PAYMENREQUEST_0_INVNUM'            =>  'Idirian InvNum variable test!',
+    'PAYMENTREQUEST_0_PAYMENTACTION'    =>  'SALE',
+    'VERSION'                           =>  '124',
+    'USER'                              =>  $dt[ 'user' ],
+    'PWD'                               =>  $dt[ 'pwd' ],
+    'SIGNATURE'                         =>  $dt[ 'sig' ],
 ];
 
 ksort( $data );
+
+$myvars = urldecode( http_build_query( $data ) );
 
 $data_arr = $data;
 
@@ -101,6 +100,7 @@ foreach ( $data_arr as $k => $v ) {
     $call->data["$k"] = $v;
   }
 }
+
 ksort( $call->data );
 $call->string = $data;
 

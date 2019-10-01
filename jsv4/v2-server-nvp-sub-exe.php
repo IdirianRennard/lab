@@ -3,43 +3,35 @@ class data {
 
 }
 
-$dt = urldecode( base64_decode( ( $_GET[ 'dt' ] ) ) );
+parse_str( urldecode( base64_decode( ( $_GET[ 'dt' ] ) ) ), $dt );
 
-parse_str( $dt, $dt );
-
-if ( $dt['env'] == 'sandbox' ) {
+if ( $dt[ 'env' ] == 'sandbox' ) {
     $url = 'https://api-3t.sandbox.paypal.com/nvp';
 } else {
     $url = 'https://api-3t.paypal.com/nvp';
 }
 
+$date = date("Y-m-d");
+$tomorrow = date( "Y-m-d", strtotime($date. ' + 1 day') ) . "T00:00:00Z";
+$profile_ref = date( "YMDHis" );
+
 $data = [
-    'USER'                            =>  $dt[ 'user' ],
-    'PWD'                             =>  $dt[ 'pwd' ],
-    'SIGNATURE'                       =>  $dt[ 'sig' ],
-    'PAYMENTREQUEST_0_PAYMENTACTION'  =>  $dt[ 'action' ],
-    'VERSION'                         =>  '124',
-    'AMT'                             =>  $dt[ 'amt' ],
-    'METHOD'                          =>  'SetExpressCheckout',
-    'SOLUTIONTYPE'                    =>  'Sole',
-    'IPADDRESS'                       =>  $dt[ 'ip' ],
-    "COUNTRYCODE"                     =>  "US",
-    "LANDINGPAGE"                     =>  "Billing",
-    "ReqBillingAddress"               =>  '0',
-    "NoShipping"                      =>  '0',
-    "AddressOverride"                 =>  '0',
-    'L_PAYMENTTYPE0'                  =>  'InstantOnly',
-    'VERBOCITY'                       =>  'high',
-    'NOTIFYURL'                       =>  'https://houserennard.online/idirian/ipn/ipn.php',
-    'RETURNURL'                       =>  $dt[ 'return' ],
-    'CANCELURL'                       =>  $dt[ 'cancel' ],
-    'PAYMENTREQUEST_0_AMT'            =>  $dt[ 'amt' ],
-    'PAYMENTREQUEST_0_ITEMAMT'        =>  $dt[ 'amt' ],
-    'PAYMENTREQUEST_0_CURRENCYCODE'   =>  $dt[ 'cur' ],
+  'USER'              =>  $dt[ 'user' ],
+  'PWD'               =>  $dt[ 'pwd' ],
+  'SIGNATURE'         =>  $dt[ 'sig' ],
+  'PROFILESTARTDATE'  =>  $tomorrow,
+  'PROFILEREFERENCE'  =>  $profile_ref,
+  'BILLINGPERIOD'     =>  ucfirst( $dt[ 'freq' ] ),
+  'BILLINGFREQUENCY'  =>  $dt[ 'interval'],
+  'AMT'               =>  $dt[ 'amt' ],
+  'METHOD'            => 'CreateRecurringPaymentsProfile',
+  'VERSION'           =>  124,
+  'PAYERID'           =>  $_GET['payerID'],
+  'TOKEN'             =>  $_GET['orderID'],
+  'DESC'              =>  'House Rennard NVP Recurring Test',
 ];
 
 ksort( $data );
-
 $data_arr = $data;
 
 $data = urldecode( http_build_query( $data ) );
@@ -81,10 +73,25 @@ foreach( $vars as $part ){
   $headers[ trim($middle[0] ) ] = trim( $middle[1] );
 } 
 
-parse_str( strstr( $resp, 'TOKEN' ), $jesus );
+parse_str( strstr( $resp, 'TIMESTAMP' ), $jesus );
 
 $return = new data ();
-$return->id = $jesus[ 'TOKEN' ];
+$return->ack = $jesus[ 'ACK' ];
+$return->http_response = $http_code;
+$return->cal = $jesus[ 'CORRELATIONID' ];
+
+if ( isset( $jesus[ 'PAYMENTINFO_0_TRANSACTIONID' ] ) ) {
+  $return->transaction = $jesus[ 'PAYMENTINFO_0_TRANSACTIONID' ];
+}
+
+if ( isset( $jesus[ 'L_ERRORCODE0' ] ) ) {
+  $error = new data ();
+  $error->error_code = $jesus[ 'L_ERRORCODE0' ];
+  $error->severity = $jesus[ 'L_SEVERITYCODE0' ];
+  $error->subject = $jesus[ 'L_SHORTMESSAGE0' ];
+  $error->error_message = $jesus[ 'L_LONGMESSAGE0' ];
+  $return->error = $error;
+}
 
 $return->api = new data ();
 $return->api->enviroment = $dt[ 'env' ];
@@ -101,27 +108,33 @@ foreach ( $data_arr as $k => $v ) {
     $call->data["$k"] = $v;
   }
 }
+
 ksort( $call->data );
+
 $call->string = $data;
 
 $return->api->call = $call;
 
 $reply = new data ();
-$reply->ack = $jesus[ 'ACK' ];
-$reply->http = $http_code;
-$reply->cal = $jesus[ 'CORRELATIONID' ];
 $reply->response = array ();
 foreach ( $jesus as $k => $v ){
   $reply->response["$k"] = $v;
 } 
 
-ksort( $reply->response );
-$reply->string = strstr( $resp, 'TOKEN' );
+ksort ( $reply->response );
+
+if ( strstr( $resp, 'PROFILEID' ) == '' ) {
+    $reply->string =  strstr( $resp, 'TIMESTAMP' );
+} else { 
+    $reply->string =  strstr( $resp, 'PROFILEID' );
+}
 
 $return->api->response = $reply;
+
 
 $return = json_encode ( $return );
 
 header('Content-Type: application/json');
 echo $return;
+
 ?>

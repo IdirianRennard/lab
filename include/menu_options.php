@@ -45,6 +45,7 @@ $gen = [
   'time_convert' => 'Time Converter',
   'lorax' => 'Lorax',
   'base_64_decode' => 'Decode: Base 64',
+  'ipn_wh_call_sim' => 'IPN/Webhook Call Simulator',
   //'fw-redirect' => 'Redirection',
 ];
 
@@ -168,6 +169,7 @@ $help_options = [
   'https://bridgeteamsite.paypalcorp.com/teamworks/sites/34255/mts/Lists/On%20Call%20MTS%20L2/AllItems.aspx' => 'Teamwork Site: On Call',
   'https://developer.paypal.com/docs/classic/payflow/payflow-pro/payflow-pro-testing/' => 'Test Credit Cards - Payflow',
   'https://go/sitenotebooks' => 'Orion - Site Notebooks',
+  'https://pphsdk.loggly.com/'  => 'Loggly',
 ];
 
 asort( $help_options );

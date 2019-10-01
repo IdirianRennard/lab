@@ -21,6 +21,7 @@ $data = [
     'PAYMENTREQUEST_0_AMT'            =>  $dt[ 'amt' ],
     'PAYMENTREQUEST_0_ITEMAMT'        =>  $dt[ 'amt' ],
     'PAYMENTREQUEST_0_CURRENCYCODE'   =>  $dt[ 'cur' ],
+    'PAYMENTREQUEST_0_PAYMENTACTION'  =>  $dt[ 'action' ],
     'VERSION'                         =>  '124',
 ];
 
@@ -73,6 +74,10 @@ $return->ack = $jesus[ 'ACK' ];
 $return->http_response = $http_code;
 $return->cal = $jesus[ 'CORRELATIONID' ];
 
+if ( isset( $jesus[ 'PAYMENTINFO_0_TRANSACTIONID' ] ) ) {
+  $return->transaction = $jesus[ 'PAYMENTINFO_0_TRANSACTIONID' ];
+}
+
 if ( isset( $jesus[ 'L_ERRORCODE0' ] ) ) {
   $error = new data ();
   $error->error_code = $jesus[ 'L_ERRORCODE0' ];
@@ -97,6 +102,9 @@ foreach ( $data_arr as $k => $v ) {
     $call->data["$k"] = $v;
   }
 }
+
+ksort( $call->data );
+
 $call->string = $data;
 
 $return->api->call = $call;
@@ -106,6 +114,9 @@ $reply->response = array ();
 foreach ( $jesus as $k => $v ){
   $reply->response["$k"] = $v;
 } 
+
+ksort ( $reply->response );
+
 $reply->string = strstr( $resp, 'TOKEN' );
 
 $return->api->response = $reply;
