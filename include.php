@@ -2,7 +2,6 @@
 session_start();
 include "include/credentials.php";
 include "include/menu_options.php";
-include "include/functions.php";
 include "include/rest_functions.php";
 include "include/browser_detection.php";
 
