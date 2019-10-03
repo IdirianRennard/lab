@@ -6,14 +6,16 @@ $trx_type = [
   'B'   =>  'Balance Inquiry',
   'C'   =>  'Credit (Refund)',
   'D'   =>  'Delayed Capture',
+  'E'   =>  'Buyer Authentication',
   'F'   =>  'Voice Authorization',
   'I'   =>  'Inquiry',
   'K'   =>  'Rate Lookup',
   'L'   =>  'Data Upload',
   'N'   =>  'Duplicate Transaction',
+  'NRC' =>  'Credit (Non-Referenced)',
   'S'   =>  'Sale',
   'R'   =>  'Recurring Billing - Inquiry',
-  'NRC' =>  'Credit (Non-Referenced)',
+  
 ];
 
 asort( $trx_type );
@@ -56,28 +58,29 @@ asort( $trx_type );
       <td><?php echo currency_dropdown(); ?></td>
     </tr>
     <tr><td><br></td></tr>
-    <tr><td>Enviroment:</td><td></td><td>
-      <select id='enviroment' name="enviroment" class='drop' required>
-        <option selected disabled>Select Enviroment</option>
-        <option value="live">Live</option>
-        <option value="sandbox">Sandbox</option>
-    </select></td></tr>
     <tr>
-      <td colspan='42'><hr></td>
-      <input type="hidden" name="ACCT" value="5105105105105100">
-      <input type="hidden" name="EXPDATE" value=<?php echo date( 'm' ) . ( date( 'y' ) + 3 ); ?>>
+      <td>Enviroment:</td>
+      <td></td>
+      <td><script>env_dropdown()</script></td>
+    </tr>
+    <tr><td><br></td></tr>
+    <tr>
+        <td>Comment:</td>
+        <td></td>
+        <td><input type="text" name="COMMENT1" value="Idirian's Test"></td>
+    </tr>
+    <tr><td><br></td></tr>
+    <tr>
+        <td>Request ID:</td>
+        <td></td>
+        <td><input type="text" name="VPS" placeholder="Custom VPS-REQUEST-ID"></td>
+    </tr>
+    <tr><td><br></td></tr>
+    <tr>
+      <td colspan='42'><hr></td>   
       <input type="hidden" name="DISABLERECEIPT" value="true">
-      <input type="hidden" name="BILLTOFIRSTNAME" value="John">
-      <input type="hidden" name="BILLTOLASTNAME" value="Smith">
-      <input type="hidden" name="BILLTOSTREET" value="123 Fake St">
-      <input type="hidden" name="BILLTOCITY" value="SCHENECTADY">
       <input type="hidden" name="TENDER" value="C">
-      <input type="hidden" name="STATE" value="NY">
-      <input type="hidden" name="STREET" value="123 Fake St">
-      <input type="hidden" name="CITY" value="SCHENECTADY">
-      <input type="hidden" name="ZIP" value="12345">
       <input type="hidden" name="VERBOSITY" value="high">
-      <input type="hidden" name="COMMENT1" value="Nate's Test">
       <input type="hidden" name="NOTIFYURL" value="https://houserennard.online/ipn/ipn.php">
       <input type="hidden" name="CANCELURL" value="<?php echo $return_file_path . 'test.php?cancel=true'; ?>">
       <input type="hidden" name="ERRORURL" value="<?php echo $return_file_path . 'test.php?error=true'; ?>">
@@ -94,16 +97,28 @@ $(document).ready( function () {
     let message;
 
     switch ( e.target.value ) {
-      case 'C':
+      case 'C', 'I':
         message = "<br>Original ID: <input type='text' placeholder='  PNREF' name='ORIGID' required>";
-        break;
+      break;
 
       case 'R':
         message = "<br>Profile ID: <input type='text' placeholder='  PROFILEID' name='ORIGPROFILEID' required>";
-        break;
+      break;
 
       default:
-        message = '';
+        $('#ORIGID').css( 'text-align', 'left');
+
+        message = "<br>Credit Card Info: <br><table class='table'>";
+          message += "<tr><td>Card Number:</td><td><input type='text' name='ACCT' value='5105105105105100'></td></tr>";
+          message += "<tr><td>CVV2:</td><td><input type='text' name='CVV2' value='456' size='3'></td></tr>";
+          message += "<tr><td>Exp Date:</td><td><input type='text' name='EXPDATE' value='<?php echo date( 'm' ) . ( date( 'y' ) + 3 ); ?>'></td></tr>";
+          message += "<tr><td>Billing Name:</td><td><input type='text' name='BILLTOFIRSTNAME' value='John'></td><td><input type='text' name='BILLTOLASTNAME' value='Smith'></td></tr>";
+          message += "<tr><td>Billing Address:<br></td><td><input type='text' name='BILLTOSTREET' value='123 Fake St'><br><input type='text' name='BILLTOCITY' value='SCHENECTADY'></td>";
+          message += "<td>";
+          message += "<br><?php state_dropdown(); ?>";
+          message += "<input type='text' name='BILLTOZIP' value='12345' size='6'></td></tr>"
+        message += "</table>";
+      break;
     }
 
     $('#ORIGID').html( message );

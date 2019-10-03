@@ -10,91 +10,128 @@ if( $enviroment == 'live') {
   $endpoint = 'https://pilot-payflowpro.paypal.com';
 }
 
-$data = array();
-
-$request_id = "RENNARD-";
-
 $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+$request_id = 'INVNUM-';
 
-for ($i = 0 ; $i < 24 ; $i++) {
+for ($i = 0 ; $i < 36 ; $i++) {
   $request_id .= $characters[mt_rand(0, strlen($characters) - 1)];
 }
 
-$headers[] = "X-VPS-REQUEST-ID: $request_id";
-//$headers[] = "PAYPAL-NVP:Y";
+if ( $_POST[ 'VPS' ] == '' ) {
+  $vps = NULL;
+} else {
+  $vps = $_POST[ 'VPS' ];
+}
 
+$data = array();
 
 switch ( $_POST['TRXTYPE'] ) {
   case 'C':
     $data = [
-      'PARTNER' => $_POST['PARTNER'],
-      'VENDOR' => $_POST['VENDOR'],
-      'USER' => $_POST['USER'],
-      'PWD' =>  $_POST['PWD'],
-      'TRXTYPE' => $_POST['TRXTYPE'],
-      'VERBOSITY' => $_POST['VERBOSITY'],
-      'ORIGID' => $_POST['ORIGID'],
-      'AMT' => $_POST['AMT'],
-      //'TENDER' => $_POST['TENDER'],
-      //'COMMENT1' => 'TEST OF CREDIT/REFUND',
+      'PARTNER'   =>  $_POST[ 'PARTNER'   ],
+      'VENDOR'    =>  $_POST[ 'VENDOR'    ],
+      'USER'      =>  $_POST[ 'USER'      ],
+      'PWD'       =>  $_POST[ 'PWD'       ],
+      'TRXTYPE'   =>  $_POST[ 'TRXTYPE'   ],
+      'VERBOSITY' =>  $_POST[ 'VERBOSITY' ],
+      'ORIGID'    =>  $_POST[ 'ORIGID'    ],
+      'AMT'       =>  $_POST[ 'AMT'       ],
     ];
+  break;
+
+  case 'E':
+  $data = [
+    'PARTNER'     =>  $_POST[ 'PARTNER'   ],
+    'VENDOR'      =>  $_POST[ 'VENDOR'    ],
+    'USER'        =>  $_POST[ 'USER'      ],
+    'PWD'         =>  $_POST[ 'PWD'       ],
+    'TRXTYPE'     =>  $_POST[ 'TRXTYPE'   ],
+    'VERBOSITY'   =>  $_POST[ 'VERBOSITY' ],
+    'ACCT'        =>  $_POST[ 'ACCT'      ],
+    'AMT'         =>  $_POST[ 'AMT'       ],
+    'EXPDATE'     =>  $_POST[ 'EXPDATE'   ],
+    'CURRENCY'    =>  $_POST[ 'CURRENCY'  ],
+  ];
+
+  $headers = TRUE;
+  break;
+
+  case 'I':
+  $data = [
+    'PARTNER'     =>  $_POST[ 'PARTNER'   ],
+    'VENDOR'      =>  $_POST[ 'VENDOR'    ],
+    'USER'        =>  $_POST[ 'USER'      ],
+    'PWD'         =>  $_POST[ 'PWD'       ],
+    'TRXTYPE'     =>  $_POST[ 'TRXTYPE'   ],
+    'VERBOSITY'   =>  $_POST[ 'VERBOSITY' ],
+    'ORIGID'      =>  $_POST[ 'ORIGID'    ],
+  ];
   break;
   
   case 'NRC':
     $data = [
-      'PARTNER'             =>  $_POST['PARTNER'],
-      'VENDOR'              =>  $_POST['VENDOR'],
-      'USER'                =>  $_POST['USER'],
-      'PWD'                 =>  $_POST['PWD'],
       'TRXTYPE'             =>  'C',
-      'ACCT'                =>  $_POST['ACCT'],
-      'CVV2'                =>  '456',
-      'EXPDATE'             =>  $_POST['EXPDATE'],
-      'VERBOSITY'           =>  $_POST['VERBOSITY'],
-      'AMT'                 =>  $_POST['AMT'],
-      'CURRENCY'            =>  $_POST['CURRENCY'],
-      'BILLTOFIRSTNAME'     =>  $_POST['BILLTOFIRSTNAME'],
-      'BILLTOLASTNAME'      =>  $_POST['BILLTOLASTNAME'],
-      'BILLTOSTREET'        =>  $_POST['STREET'],
-      'BILLTOCITY'          =>  $_POST['CITY'],
-      'BILLTOZIP'           =>  $_POST['ZIP'],
-      'BILLTOCOUNTRY'       =>  'USA',
       'INVNUM'              =>  $request_id,
-      'TENDER'              =>  $_POST['TENDER'],
+      'PARTNER'             =>  $_POST[ 'PARTNER'         ],
+      'VENDOR'              =>  $_POST[ 'VENDOR'          ],
+      'USER'                =>  $_POST[ 'USER'            ],
+      'PWD'                 =>  $_POST[ 'PWD'             ],
+      'ACCT'                =>  $_POST[ 'ACCT'            ],
+      'CVV2'                =>  $_POST[ 'CVV2'            ],
+      'EXPDATE'             =>  $_POST[ 'EXPDATE'         ],
+      'VERBOSITY'           =>  $_POST[ 'VERBOSITY'       ],
+      'AMT'                 =>  $_POST[ 'AMT'             ],
+      'CURRENCY'            =>  $_POST[ 'CURRENCY'        ],
+      'BILLTOFIRSTNAME'     =>  $_POST[ 'BILLTOFIRSTNAME' ],
+      'BILLTOLASTNAME'      =>  $_POST[ 'BILLTOLASTNAME'  ],
+      'BILLTOSTREET'        =>  $_POST[ 'BILLTOSTREET'    ],
+      'BILLTOCITY'          =>  $_POST[ 'BILLTOCITY'      ],
+      'BILLTOZIP'           =>  $_POST[ 'BILLTOZIP'       ],
+      'TENDER'              =>  $_POST[ 'TENDER'          ],
     ];
+    
+    $vps = $request_id;
   break;
 
   case 'R':
       $data = [
-        'PARTNER' => $_POST['PARTNER'],
-        'VENDOR' => $_POST['VENDOR'],
-        'USER' => $_POST['USER'],
-        'PWD' =>  $_POST['PWD'],
-        'TRXTYPE' => $_POST['TRXTYPE'],
-        'ACTION' => 'I',
-        'VERBOSITY' => $_POST['VERBOSITY'],
-        'ORIGPROFILEID' => $_POST['ORIGPROFILEID'],
-        'PAYMENTHISTORY' => 'Y',
+        'ACTION'          =>  'I',
+        'PAYMENTHISTORY'  =>  'Y',
+        'PARTNER'         =>  $_POST[ 'PARTNER'       ],
+        'VENDOR'          =>  $_POST[ 'VENDOR'        ],
+        'USER'            =>  $_POST[ 'USER'          ],
+        'PWD'             =>  $_POST[ 'PWD'           ],
+        'TRXTYPE'         =>  $_POST[ 'TRXTYPE'       ],
+        'VERBOSITY'       =>  $_POST[ 'VERBOSITY'     ],
+        'ORIGPROFILEID'   =>  $_POST[ 'ORIGPROFILEID' ],
       ];
   break;
 
   default:
-    foreach ($_POST as $key => $value) {
-      $K = strtoupper( $key );
-      $data["$K"] = $value;
+    foreach ($_POST as $k => $v) {
+      $K = strtoupper( $k );
+      
+      $data["$K"] = $v;
+
+      if ( substr( $K, 0, 6 ) == 'BILLTO' ) {
+        $catch = substr( $K, 6 );
+        $data["$catch"] = "$v";
+
+        $ship_to = "SHIPTO" . substr( $K, 6 );
+        $data["$ship_to"] = "$v";     
+      }
     }
+
+    $data['SHIPTOSTATE'] = $data['STATE'];
+    $data['BILLTOSTATE'] = $data['STATE'];
   break;
 }
-
-/*$data['L_NAME0'] = 'Header Test';
-$data['L_DESC0'] = 'Header Test Desc';
-$data['L_AMT0'] = $_POST['AMT'];*/
 
 ksort( $data );
 
 $myvars = urldecode( http_build_query( $data ) );
 
-$resp = nvp_api( $endpoint, $myvars );
+$resp = nvp_api( $endpoint, $myvars, $vps );
 
 $resp_str = $resp;
 
@@ -136,8 +173,28 @@ parse_str( $resp, $resp );
         $string[ $explode_2[0] ] = $explode_2[1];
       };
 
+      switch ( $string['AUTHENTICATION_STATUS[1]'] ) {
+
+        case 'E': 
+          $string[  'AUTHENTICATION_STATUS[1]'  ] .=  " - Card enrolled";
+        break;
+
+        case 'O': 
+          $string[  'AUTHENTICATION_STATUS[1]'  ] .=  " - Card not enrolled";
+        break;
+
+        case 'X': 
+          $string[  'AUTHENTICATION_STATUS[1]'  ] .=  " - Cannot be verified";
+        break;
+      
+        case 'I': 
+          $string[  'AUTHENTICATION_STATUS[1]'  ] .=  " - An error occurred or request failed";
+        break;
+
+      }
+
       foreach ( $string as $k => $v ) {
-        echo "<tr><td>[</td><script>spaces(4)</script><td>$k</td><script>spaces(4)</script><td>]</td><script>spaces(4)</script><td>=></td><script>spaces(4)</script><td>|$v|</td></tr>";
+        echo "<tr><td>[</td><script>spaces(4)</script><td>$k</td><script>spaces(4)</script><td>]</td><script>spaces(4)</script><td>=></td><script>spaces(4)</script><td>$v</td></tr>";
       };
     } else {
       foreach ($resp as $k => $v) {
