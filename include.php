@@ -93,145 +93,120 @@ echo "<div class='$right_nav' id='accordion'>";
   
   foreach ( $help_options as $k => $v ) {
     
+    echo "<h3>  $v</h3>";
+    echo "<div>";
+      echo "<p align='center'>";
     switch ( $k ) {
 
       case 'background' : 
-        echo "<h3>  $v</h3>";
-        echo "<div>";
-          echo "<p align='center'>";
-            echo "<form action='upload.php' method='post' enctype='multipart/form-data'>";
-              echo "<table>";
-                echo "<tr>";
-                  echo "<td align='center'>Wallpaper Change:<br><br></td>";
-                echo "</tr>";
-                echo "<tr>";
-                  echo "<td align='center'><input type='file' name='fileToUpload' id='fileToUpload' class='upload'>";
-                echo "</tr>";
-                echo "<tr>";
-                  echo "<td align='right'><input type='submit' class='button' id='upload_button' value='update'></td>";
-                echo "</tr>";
-              echo "</table>";
-            echo "</form>";
-          echo "</p>";
-        echo "</div>";
+        echo "<form action='upload.php' method='post' enctype='multipart/form-data'>";
+          echo "<table>";
+            echo "<tr>";
+              echo "<td align='center'>Wallpaper Change:<br><br></td>";
+            echo "</tr>";
+            echo "<tr>";
+              echo "<td align='center'><input type='file' name='fileToUpload' id='fileToUpload' class='upload'>";
+            echo "</tr>";
+            echo "<tr>";
+              echo "<td align='right'><input type='submit' class='button' id='upload_button' value='update'></td>";
+            echo "</tr>";
+          echo "</table>";
+        echo "</form>";
       break;
 
       case 'admin' :
-        echo "<h3>  $v</h3>";
-        echo "<div>";
-          echo "<p align='center'>";
-            echo "Admin Account:<br><br><input type='text' size='20' id='acct_number' placeholder='  Enter Acct Identifier'><br><br>";
-          echo "</p>";
-          echo "<p align='center'>";
-            echo "<table>";
-              echo "<tr>";
-                echo "<td align='left' width='25%'><label class='$switch_class'><input type='checkbox' id='home'><span class='slider round'></span></label><font color='#003D6B'>Home</td>";
-                echo "<td align='left' width='25%'><label class='$switch_class'><input type='checkbox' id='activity'><span class='slider round'></span></label><font color='#003D6B'>Activity</td>";
-                echo "<td align='left' width='25%'><label class='$switch_class'><input type='checkbox' id='transaction'><span class='slider round'></span></label><font color='#003D6B' >Txn</td>";
-              echo "</tr>";
-              echo "<tr>";
-                echo "<td align='left' width='25%'><label class='$switch_class'><input type='checkbox' id='products'><span class='slider round'></span></label><font color='#003D6B' >Prod</td>";
-                echo "<td align='left' width='25%'><label class='$switch_class'><input type='checkbox' id='service'><span class='slider round'></span></label><font color='#003D6B' >Service</td>";
-                echo "<td align='left' width='25%'><label class='$switch_class'><input type='checkbox' id='all'><span class='slider round'></span></label><font color='#003D6B' >All</td>";
-              echo "</tr>"; 
-            echo "</table>";
-            echo "<hr>";
-          echo "</p>";
-          echo "<p align='center'>";
-            echo "<table>";
-              echo "<tr>";
-                echo "<td><label class='$switch_class'><input type='checkbox' id='sandbox'><span class='slider round'</span></label><font color='#003D6B' >Sandbox</td>";
-                echo "<script>spaces(30)</script>";
-                echo "<td colspan='42' align='right'><input type='submit' class='button' id='admin_button' value='open'></td>";
-              echo "</tr>";
-            echo "</table>";
-          echo "</p>";
-        echo "</div>";
+        echo "Admin Account:<br><br><input type='text' size='20' id='acct_number' placeholder='  Enter Acct Identifier'><br><br>";
+      echo "</p>";
+      echo "<p align='center'>";
+        echo "<table>";
+          echo "<tr>";
+            echo "<td align='left' width='25%'><label class='$switch_class'><input type='checkbox' id='home'><span class='slider round'></span></label><font color='#003D6B'>Home</td>";
+            echo "<td align='left' width='25%'><label class='$switch_class'><input type='checkbox' id='activity'><span class='slider round'></span></label><font color='#003D6B'>Activity</td>";
+            echo "<td align='left' width='25%'><label class='$switch_class'><input type='checkbox' id='transaction'><span class='slider round'></span></label><font color='#003D6B' >Txn</td>";
+          echo "</tr>";
+          echo "<tr>";
+            echo "<td align='left' width='25%'><label class='$switch_class'><input type='checkbox' id='products'><span class='slider round'></span></label><font color='#003D6B' >Prod</td>";
+            echo "<td align='left' width='25%'><label class='$switch_class'><input type='checkbox' id='service'><span class='slider round'></span></label><font color='#003D6B' >Service</td>";
+            echo "<td align='left' width='25%'><label class='$switch_class'><input type='checkbox' id='all'><span class='slider round'></span></label><font color='#003D6B' >All</td>";
+          echo "</tr>"; 
+        echo "</table>";
+        echo "<hr>";
+      echo "</p>";
+      echo "<p align='center'>";
+        echo "<table>";
+          echo "<tr>";
+            echo "<td><label class='$switch_class'><input type='checkbox' id='sandbox'><span class='slider round'</span></label><font color='#003D6B' >Sandbox</td>";
+            echo "<script>spaces(30)</script>";
+            echo "<td colspan='42' align='right'><input type='submit' class='button' id='admin_button' value='open'></td>";
+          echo "</tr>";
+        echo "</table>";
       break;
 
-      case 'JIRA' :
-        echo "<h3>  $v</h3>";
-        echo "<div>";
-          echo "<p align='center'>";
-            echo "JIRA Ticket:<br><br><input type='text' size='20' id='jira_ticket' placeholder='  Enter Ticket Number' required>";
-            echo "<hr>";
-          echo "</p>";
-          echo "<p align='right'>";
-            echo "<input type='submit' class='button' id='jira_button' value='open'>";
-          echo "</p>";
-        echo "</div>";
+      case 'JIRA' :        
+        echo "JIRA Ticket:<br><br><input type='text' size='20' id='jira_ticket' placeholder='  Enter Ticket Number' required>";
+        echo "<hr>";
+      echo "</p>";
+      echo "<p align='right'>";
+        echo "<input type='submit' class='button' id='jira_button' value='open'>";
       break;
 
-      case 'splunk' :
-        echo "<h3>  $v</h3>";
-        echo "<div>";
-          echo "<p align='center'>";
-            echo "Splunk Query:";
-            echo "<br><br>";
-            echo "<input type='text' size='20' id='splunk' placeholder='  Enter Query' required>";
-            echo "<br><br>";
-            echo "<select class='drop' id='cave_app'>";
-              echo "<option value='dis' disabled selected>Select Search App</option>";
-              foreach ( $splunk_dropdown as $k => $v ) {
-                echo "<option value='$k'>$v</option>";
-              }
-            echo "</select>";
-            echo "<br><br>";
-            echo "<table>";
-              echo "<tr><td>Start Time: </td><td><input type='text' id='cave_start_datepicker' name='cave_start_date' placeholder='$date_holder' required></td></tr>";
-              echo "<tr><td>End Time: </td><td><input type='text' id='cave_end_datepicker' name='cave_end_date' placeholder='$date_holder' required></td></tr>";
-            echo "</table>";  
-            echo "<hr>";
-          echo "</p>";
-          echo "<p align='right'>";
-            echo "<input type='submit' class='button' id='cave_dive' value='open'>";
-          echo "</p>";
-        echo "</div>";
+      case 'splunk' :        
+        echo "Splunk Query:";
+        echo "<br><br>";
+        echo "<input type='text' size='20' id='splunk' placeholder='  Enter Query' required>";
+        echo "<br><br>";
+        echo "<select class='drop' id='cave_app'>";
+          echo "<option value='dis' disabled selected>Select Search App</option>";
+          foreach ( $splunk_dropdown as $k => $v ) {
+            echo "<option value='$k'>$v</option>";
+          }
+        echo "</select>";
+        echo "<br><br>";
+        echo "<table>";
+          echo "<tr><td>Start Time: </td><td><input type='text' id='cave_start_datepicker' name='cave_start_date' placeholder='$date_holder' required></td></tr>";
+          echo "<tr><td>End Time: </td><td><input type='text' id='cave_end_datepicker' name='cave_end_date' placeholder='$date_holder' required></td></tr>";
+        echo "</table>";  
+        echo "<hr>";
+      echo "</p>";
+      echo "<p align='right'>";
+        echo "<input type='submit' class='button' id='cave_dive' value='open'>";
       break;
 
       case 'sherlock' :
-        echo "<h3>  $v</h3>";;
-        echo "<div>";
-          echo "<p align='center'>";
-            echo "Sherlock Query:";
-            echo "<br><br>";
-            echo "<input type='text' size='20' id='sherlock' placeholder='  Enter Query' required>";
-            echo "<br><br>";
-            echo "<table>";
-              echo "<tr><td>Start Time: </td><td><input type='text' id='cal_start_datepicker' name='cal_start_date' placeholder='$date_holder' required></td></tr>";
-              echo "<tr><td>End Time: </td><td><input type='text' id='cal_end_datepicker' name='cal_end_date' placeholder='$date_holder' required></td></tr>";
-            echo "</table>";
-            echo "<hr>";
-          echo "</p>";
-          echo "<p align='right'>";
-            echo "<input type='submit' class='button' id='game_is_afoot' value='open'>";
-          echo "</p>";
-        echo "</div>";
+        echo "Sherlock Query:";
+        echo "<br><br>";
+        echo "<input type='text' size='20' id='sherlock' placeholder='  Enter Query' required>";
+        echo "<br><br>";
+        echo "<table>";
+          echo "<tr><td>Start Time: </td><td><input type='text' id='cal_start_datepicker' name='cal_start_date' placeholder='$date_holder' required></td></tr>";
+          echo "<tr><td>End Time: </td><td><input type='text' id='cal_end_datepicker' name='cal_end_date' placeholder='$date_holder' required></td></tr>";
+        echo "</table>";
+        echo "<hr>";
+      echo "</p>";
+      echo "<p align='right'>";
+        echo "<input type='submit' class='button' id='game_is_afoot' value='open'>";
       break;
 
       case 'tealeaf' :
-        echo "<h3>  $v</h3>";
-        echo "<div>";
-          echo "<p align='center'>";
-            echo "Tealeaf Query:";
-            echo "<br><br>";
-            echo "<input type='text' size='20' id='tealeaf' placeholder='  Enter Query' required>";
-            echo "<br><br>";
-            echo "<table>";
-              echo "<tr><td>Start Time: </td><td><input type='text' id='tl_start_datepicker' name='tl_start_date' placeholder='$date_holder' required></td></tr>";
-              echo "<tr><td>End Time: </td><td><input type='text' id='tl_end_datepicker' name='tl_end_date' placeholder='$date_holder' required></td></tr>";    
-            echo "</table>";
-            echo "<hr>";
-          echo "</p>";
-          echo "<p align='right'>";
-            echo "<input type='submit' class='button' id='make_tea' value='open'>";
-          echo "</p>";
-        echo "</div>";
+        echo "Tealeaf Query:";
+        echo "<br><br>";
+        echo "<input type='text' size='20' id='tealeaf' placeholder='  Enter Query' required>";
+        echo "<br><br>";
+        echo "<table>";
+          echo "<tr><td>Start Time: </td><td><input type='text' id='tl_start_datepicker' name='tl_start_date' placeholder='$date_holder' required></td></tr>";
+          echo "<tr><td>End Time: </td><td><input type='text' id='tl_end_datepicker' name='tl_end_date' placeholder='$date_holder' required></td></tr>";    
+        echo "</table>";
+        echo "<hr>";
+      echo "</p>";
+      echo "<p align='right'>";
+        echo "<input type='submit' class='button' id='make_tea' value='open'>";
       break;
 
       default:
       break;
     }
+    echo "</p>";
+    echo "</div>";
   }
 echo "</div>";
 
