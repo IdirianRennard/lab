@@ -58,7 +58,7 @@ $date_holder = "  " . $date->format( 'm/d/Y' );
 
 <table class='titlebar'>
   <tr>
-    <td colspan='42' align='center'><a href='reset.php'>Idirian's Lab</a></td>
+    <td colspan='42' align='center'><a href='./'>Idirian's Lab</a></td>
   </tr>
   <tr><td><font size='4em'><br></font></td><tr>
   <tr>
@@ -72,6 +72,19 @@ $date_holder = "  " . $date->format( 'm/d/Y' );
 
         echo "<td class='nav_menu' id='$k' align='center'>$vis_k</td><td><i class='arrow down'></i></td></tr>";
         echo "<tr><td><div id='$k-drop' class='hover-content'>";
+        echo "<script>";
+          echo "$(document).ready( function () {";
+
+            echo "$('#$k').on( 'mouseenter', function(e) {";
+              echo "$('#$k-drop').slideDown( 'fast' );";
+            echo "} );";
+
+            echo "$('#$k-drop').on( 'mouseleave', function(e) {";
+              echo "$('#$k-drop').slideUp( 'medium' );";
+            echo "} );";
+
+          echo "} );";
+        echo "</script>";
 
         if ( $k == 'Helpful_Links' ) {
           foreach ( $v as $page => $page_name ) {
@@ -105,8 +118,9 @@ echo "<div class='$right_nav' id='accordion'>";
               echo "<td align='center'>Wallpaper Change:<br><br></td>";
             echo "</tr>";
             echo "<tr>";
-              echo "<td align='center'><input type='file' name='fileToUpload' id='fileToUpload' class='upload'>";
+              echo "<td align='center'><input type='file' name='fileToUpload' id='fileToUpload' class='nav_input' required>";
             echo "</tr>";
+            echo "<tr><td><br></td></tr>";
             echo "<tr>";
               echo "<td align='right'><input type='submit' class='button' id='upload_button' value='update'></td>";
             echo "</tr>";
@@ -115,7 +129,7 @@ echo "<div class='$right_nav' id='accordion'>";
       break;
 
       case 'admin' :
-        echo "Admin Account:<br><br><input type='text' size='20' id='acct_number' placeholder='  Enter Acct Identifier'><br><br>";
+        echo "Admin Account:<br><br><input type='text' size='20' id='acct_number' class='nav_input' placeholder='  Enter Acct Identifier'><br><br>";
       echo "</p>";
       echo "<p align='center'>";
         echo "<table>";
@@ -143,7 +157,7 @@ echo "<div class='$right_nav' id='accordion'>";
       break;
 
       case 'JIRA' :        
-        echo "JIRA Ticket:<br><br><input type='text' size='20' id='jira_ticket' placeholder='  Enter Ticket Number' required>";
+        echo "JIRA Ticket:<br><br><input type='text' size='20' id='jira_ticket' class='nav_input' placeholder='  Enter Ticket Number' required>";
         echo "<hr>";
       echo "</p>";
       echo "<p align='right'>";
@@ -153,9 +167,9 @@ echo "<div class='$right_nav' id='accordion'>";
       case 'splunk' :        
         echo "Splunk Query:";
         echo "<br><br>";
-        echo "<input type='text' size='20' id='splunk' placeholder='  Enter Query' required>";
+        echo "<input type='text' size='20' id='splunk' class='nav_input' class='nav_input' placeholder='  Enter Query' required>";
         echo "<br><br>";
-        echo "<select class='drop' id='cave_app'>";
+        echo "<select class='nav_input' id='cave_app'>";
           echo "<option value='dis' disabled selected>Select Search App</option>";
           foreach ( $splunk_dropdown as $k => $v ) {
             echo "<option value='$k'>$v</option>";
@@ -163,8 +177,8 @@ echo "<div class='$right_nav' id='accordion'>";
         echo "</select>";
         echo "<br><br>";
         echo "<table>";
-          echo "<tr><td>Start Time: </td><td><input type='text' id='cave_start_datepicker' name='cave_start_date' placeholder='$date_holder' required></td></tr>";
-          echo "<tr><td>End Time: </td><td><input type='text' id='cave_end_datepicker' name='cave_end_date' placeholder='$date_holder' required></td></tr>";
+          echo "<tr><td>Start Time: </td><td><input type='text' id='cave_start_datepicker' name='cave_start_date' class='nav_input' placeholder='$date_holder' required></td></tr>";
+          echo "<tr><td>End Time: </td><td><input type='text' id='cave_end_datepicker' name='cave_end_date' class='nav_input' placeholder='$date_holder' required></td></tr>";
         echo "</table>";  
         echo "<hr>";
       echo "</p>";
@@ -175,11 +189,11 @@ echo "<div class='$right_nav' id='accordion'>";
       case 'sherlock' :
         echo "Sherlock Query:";
         echo "<br><br>";
-        echo "<input type='text' size='20' id='sherlock' placeholder='  Enter Query' required>";
+        echo "<input type='text' size='20' id='sherlock' class='nav_input' placeholder='  Enter Query' required>";
         echo "<br><br>";
         echo "<table>";
-          echo "<tr><td>Start Time: </td><td><input type='text' id='cal_start_datepicker' name='cal_start_date' placeholder='$date_holder' required></td></tr>";
-          echo "<tr><td>End Time: </td><td><input type='text' id='cal_end_datepicker' name='cal_end_date' placeholder='$date_holder' required></td></tr>";
+          echo "<tr><td>Start Time: </td><td><input type='text' id='cal_start_datepicker' name='cal_start_date' class='nav_input' placeholder='$date_holder' required></td></tr>";
+          echo "<tr><td>End Time: </td><td><input type='text' id='cal_end_datepicker' name='cal_end_date' class='nav_input' placeholder='$date_holder' required></td></tr>";
         echo "</table>";
         echo "<hr>";
       echo "</p>";
@@ -190,11 +204,11 @@ echo "<div class='$right_nav' id='accordion'>";
       case 'tealeaf' :
         echo "Tealeaf Query:";
         echo "<br><br>";
-        echo "<input type='text' size='20' id='tealeaf' placeholder='  Enter Query' required>";
+        echo "<input type='text' size='20' id='tealeaf' class='nav_input' placeholder='  Enter Query' required>";
         echo "<br><br>";
         echo "<table>";
-          echo "<tr><td>Start Time: </td><td><input type='text' id='tl_start_datepicker' name='tl_start_date' placeholder='$date_holder' required></td></tr>";
-          echo "<tr><td>End Time: </td><td><input type='text' id='tl_end_datepicker' name='tl_end_date' placeholder='$date_holder' required></td></tr>";    
+          echo "<tr><td>Start Time: </td><td><input type='text' id='tl_start_datepicker' name='tl_start_date' class='nav_input' placeholder='$date_holder' required></td></tr>";
+          echo "<tr><td>End Time: </td><td><input type='text' id='tl_end_datepicker' name='tl_end_date' class='nav_input' placeholder='$date_holder' required></td></tr>";    
         echo "</table>";
         echo "<hr>";
       echo "</p>";

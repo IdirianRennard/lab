@@ -103,7 +103,11 @@ $(document).ready( function () {
     let message;
 
     switch ( e.target.value ) {
-      case 'C', 'I':
+      case 'C':
+        message = "<br><table class='table'><tr><td>Original ID:</td><td>&nbsp&nbsp&nbsp&nbsp</td><td><input type='text' placeholder='  PNREF' name='ORIGID' required></td></tr></table>";
+      break;
+
+      case 'I':
         message = "<br><table class='table'><tr><td>Original ID:</td><td>&nbsp&nbsp&nbsp&nbsp</td><td><input type='text' placeholder='  PNREF' name='ORIGID' required></td></tr></table>";
       break;
 

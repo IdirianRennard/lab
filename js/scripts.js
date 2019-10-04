@@ -31,7 +31,7 @@ function json_view( php_var ) {
   document.write( message );
 }
 
-// jQuery functions
+// jQuery function
 $(document).ready( function () {
 
   //Accodion view for Right Menu
@@ -64,6 +64,36 @@ $(document).ready( function () {
     } else {
       e.target.value = '';
     }
+  } );
+
+  // Progress Bar
+  $( function() {
+    let progressbar = $( "#progressbar" );
+    let progressLabel = $( ".progress-label" );
+    
+    progressbar.progressbar( { 
+      value: false,
+      change: function () { 
+        progressLabel.text( progressbar.progressbar( 'value' ) + '%' );
+      },
+      complete: function() {
+        progressLabel.text( 'Upload Complete! ... Redirecting' );
+        $( 'body' ).css( 'background', 'transparent' );
+        $( 'body' ).css( 'background-image', 'radial-gradient(circle, #C0C0C0, #003D6B, #000000)' );   
+        setTimeout(  function() { window.location.replace( "./" ) }, 1000 );
+      }
+    } );
+
+    function progress() {
+      let val = progressbar.progressbar( "value" ) || 0;
+
+      progressbar.progressbar( 'value', val + 2 );
+
+      if ( val < 99 ) {
+        setTimeout( progress, 80 );
+      }
+    }
+    setTimeout( progress, 2000 );
   } );
 
   //Button Generater Custom URL
@@ -131,10 +161,6 @@ $(document).ready( function () {
     $( "#tl_end_datepicker" ).datepicker( );
   } );
 
-  //Set URL for Admin Buttons
-
-  
-
 
   //Open Multiple Admin Tabs
   $( '#admin_button' ).on( 'click', function() {
@@ -189,7 +215,7 @@ $(document).ready( function () {
 
     //Clears the account number and resets the placeholder
     $('#acct_number').val("");
-    $('#acct_number').attr('placeholder', '  Enter Account Number');
+    $('#acct_number').attr('placeholder', '  Enter Account Identifier');
   } );
 
   //Check all on Admin Account tile to check all boxes within it
@@ -357,137 +383,4 @@ $(document).ready( function () {
     $('#tl_end_datepicker' ).attr('placeholder', '  01/01/2000' );
   } )
 
-  $("#General_Testing").on( 'mouseenter', function(e) {
-    $('#General_Testing-drop').slideDown( 'fast' );
-  } )
-
-
-  $("#General_Testing-drop").on( 'mouseleave', function(e) {
-    $('#General_Testing-drop').slideUp( 'medium' );
-  } )
-
-  $("#Adaptive").on( 'mouseenter', function(e) {
-    $('#Adaptive-drop').slideDown( 'fast' );
-  } )
-
-  $("#Adaptive-drop").on( 'mouseleave', function(e) {
-    $('#Adaptive-drop').slideUp( 'medium' );
-  } )
-
-
-  $("#Braintree").on( 'mouseenter', function(e) {
-    $('#Braintree-drop').slideDown( 'fast' );
-  } )
-
-  $("#Braintree-drop").on( 'mouseleave', function(e) {
-    $('#Braintree-drop').slideUp( 'medium' );
-  } )
-
-  $("#Complete").on( 'mouseenter', function(e) {
-    $('#Complete-drop').slideDown( 'fast' );
-  } )
-
-  $("#Complete-drop").on( 'mouseleave', function(e) {
-    $('#Complete-drop').slideUp( 'medium' );
-  } )
-
-  $("#JSv4").on( 'mouseenter', function(e) {
-    $('#JSv4-drop').slideDown( 'fast' );
-  } )
-
-  $("#JSv4-drop").on( 'mouseleave', function(e) {
-    $('#JSv4-drop').slideUp( 'medium' );
-  } )
-
-  $("#NVP").on( 'mouseenter', function(e) {
-    $('#NVP-drop').slideDown('fast')
-  } )
-
-  $("#NVP-drop").on( 'mouseleave', function(e) {
-    $('#NVP-drop').slideUp( 'medium' );
-  } )
-
-  $("#Pro").on( 'mouseenter', function(e) {
-    $('#Pro-drop').slideDown('fast')
-  } )
-
-  $("#Pro-drop").on( 'mouseleave', function(e) {
-    $('#Pro-drop').slideUp( 'medium' );
-  } )
-
-  $("#REST").on( 'mouseenter', function(e) {
-    $('#REST-drop').slideDown('fast')
-  } )
-
-  $("#REST-drop").on( 'mouseleave', function(e) {
-    $('#REST-drop').slideUp( 'medium' );
-  } )
-
-  $("#WPS").on( 'mouseenter', function(e) {
-    $('#WPS-drop').slideDown('fast')
-  } )
-
-  $("#WPS-drop").on( 'mouseleave', function(e) {
-    $('#WPS-drop').slideUp( 'medium' );
-  } )
-
-  $("#Helpful_Links").on( 'mouseenter', function(e) {
-    $('#Helpful_Links-drop').slideDown( 'fast' );
-  } )
-
-  $("#Helpful_Links-drop").on( 'mouseleave', function(e) {
-    $('#Helpful_Links-drop').slideUp( 'medium' );
-  } )
-
-
-  //UI Setting Pannel
-  $(".nav_table_button").on( 'click', function(e) {
-
-    let old_ui = $("#ui_tile").html();
-    let new_ui = '';
-
-    new_ui += "<form action='upload.php' method='post' enctype='multipart/form-data'>";
-    new_ui += "<table class='nav_table'>";
-    new_ui += "<tr><td align='center'>Wallpaper Change:<br><br></td></tr><tr><td align='center'>";
-    new_ui += "<input type='file' name='fileToUpload' id='fileToUpload' class='upload'>";
-    new_ui += "<tr><td align='right'><input type='submit' class='button' id='upload_button' value='update'></td></tr>";
-    new_ui += "</form>";
-
-    new_ui += "<tr><td colspan='42'><hr></td></tr>";
-
-    new_ui += "<tr><td colspan'42' align='center'><input type='button' class='button' id='close_ui' value=' Close UI Settings '></td></tr>";
-    new_ui += "</table>";
-
-    $("#ui_tile").html( new_ui );
-
-    $("#close_ui").on( 'click', function(e) {
-      $("#ui_tile").html( old_ui );
-    } )
-  } )
-
-  $('#ui_tile').bind( "DOMSubtreeModified", function() {
-    $(".nav_table_button").on( 'click', function(e) {
-
-      let old_ui = $("#ui_tile").html();
-      let new_ui = '';
-
-      new_ui += "<form action='upload.php' method='post' enctype='multipart/form-data'>";
-      new_ui += "<table class='nav_table'>";
-      new_ui += "<tr><td align='center'>Wallpaper Change:<br><br></td></tr><tr><td align='center'>";
-      new_ui += "<input type='file' name='fileToUpload' id='fileToUpload' class='upload'>";
-      new_ui += "<tr><td align='right'><input type='submit' class='button' id='upload_button' value='update'></td></tr>";
-      new_ui += "</form>";
-
-      new_ui += "<tr><td colspan='42'><hr></td></tr>";
-
-      new_ui += "<tr><td colspan'42' align='center'><input type='button' class='button' id='close_ui' value=' Close UI Settings '></td></tr>";
-      new_ui += "</table>";
-
-      $("#ui_tile").html( new_ui );
-
-      $("#close_ui").on( 'click', function(e) {
-        $("#ui_tile").html( old_ui );
-      } );
-    } );
-  } );
 } ); // end jQuery
