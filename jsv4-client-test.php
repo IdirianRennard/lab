@@ -33,9 +33,13 @@ if ( isset( $_POST['PPC'] ) ) {
       tagline: <?php echo $tagline; ?>,
       layout: '<?php echo $_POST['layout']; ?>'
     },
-    funding: {
-      allowed: [<?php echo $allowed; ?>]
-    },
+    <?php 
+      if ( isset( $_POST['PPC'] ) ) {
+        echo "funding: {
+          allowed: [ $allowed ]
+        },";
+      }
+    ?>
 
     // Enable Pay Now checkout flow (optional)
     commit: true,

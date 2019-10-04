@@ -47,9 +47,13 @@ paypal.Button.render( {
     }
     ?>
   },
-  funding: {
-    allowed: [<?php echo $allowed; ?>]
-  },
+    <?php 
+      if ( isset( $_POST['PPC'] ) ) {
+        echo "funding: {
+          allowed: [ $allowed ]
+        },";
+      }
+    ?>
   // Set up a payment
   payment: function(data, actions) {
     return actions.request.post( 'jsv4/' + cre_file )

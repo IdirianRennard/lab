@@ -79,11 +79,7 @@ $intent = [
   <tr>
     <td>Enviroment</td>
     <script>spaces(4)</script>
-    <td><select class='drop' id='enviroment' name='enviroment' required>
-      <option selected='selected' disabled='disabled'>Select Enviroment</option>
-      <option value='production'>Production</option>
-      <option value='sandbox'>Sandbox</option>
-      </select>
+    <td><script>env_dropdown()</script></td>
     </td>
   </tr>
   <tr><td><br></td></tr>

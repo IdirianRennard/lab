@@ -17,10 +17,18 @@ for ($i = 0 ; $i < 36 ; $i++) {
   $request_id .= $characters[mt_rand(0, strlen($characters) - 1)];
 }
 
-if ( $_POST[ 'VPS' ] == '' ) {
-  $vps = NULL;
+$headers = array ();
+
+if ( isset ( $_POST[ 'VPS' ] ) ) {
+  $headers[] = "X-VPS-REQUEST-ID: " . $_POST[ 'VPS' ];
+  unset( $_POST[ 'VPS' ] );
 } else {
-  $vps = $_POST[ 'VPS' ];
+  $headers[] = "X-VPS-REQUEST-ID: $request_id";
+}
+
+if ( isset ( $_POST[ 'legacy_variables' ] ) ) {
+  $headers[] = "PAYPAL-NVP:Y";
+  unset( $_POST[ 'legacy_variables' ] );
 }
 
 $data = array();
@@ -52,8 +60,6 @@ switch ( $_POST['TRXTYPE'] ) {
     'EXPDATE'     =>  $_POST[ 'EXPDATE'   ],
     'CURRENCY'    =>  $_POST[ 'CURRENCY'  ],
   ];
-
-  $headers = TRUE;
   break;
 
   case 'I':
@@ -90,7 +96,6 @@ switch ( $_POST['TRXTYPE'] ) {
       'TENDER'              =>  $_POST[ 'TENDER'          ],
     ];
     
-    $vps = $request_id;
   break;
 
   case 'R':
@@ -131,7 +136,7 @@ ksort( $data );
 
 $myvars = urldecode( http_build_query( $data ) );
 
-$resp = nvp_api( $endpoint, $myvars, $vps );
+$resp = nvp_api( $endpoint, $myvars, $headers );
 
 $resp_str = $resp;
 
@@ -159,7 +164,7 @@ parse_str( $resp, $resp );
     <tr><td colspan="42" align='left'><?php echo $resp_str; ?></td></tr>
     <tr><td><br></td></tr>
     <?php
-    if ( isset( $headers ) ) {
+    if ($_POST[ 'TRXTYPE' ] == 'E' ) {
       $string = $resp_str;
 
       $string = urldecode( $string );

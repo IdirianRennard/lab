@@ -22,14 +22,34 @@ echo "BROWSER: " . $browser->getName() . "<hr>";
 echo "<table>";
 foreach ($myvars as $k => $v) {
   ksort( $myvars[$k] );
-  if ( $k !== '_SERVER' ) {
+  if ( $k !== '_SERVER' && $k !== 'currency' ) {
     echo "<tr><td>$k:</td></tr>";
     foreach ($myvars[$k] as $k => $v) {
       echo "<tr><td></td><td>[</td><script>spaces(4)</script><td>$k</td><script>spaces(4)</script><td>]</td><script>spaces(2)</script><td>=></td><script>spaces(4)</script><td>";
       print_r( $v );
       echo "</td></tr>";
     }
+  echo "<tr><td><br></td></tr>";
   }
+}
+
+if ( isset( $_GET['dt'] ) ) {
+  $dt = $_GET['dt'];
+
+  $dt = urldecode( base64_decode( $dt ) );
+  
+  parse_str( $dt, $dt );
+  
+  ksort( $dt );
+  console( $dt );
+  
+  echo "<tr><td>dt:</td></tr>";
+  foreach ( $dt as $k => $v ) {
+    echo "<tr><td></td><td>[</td><script>spaces(4)</script><td>$k</td><script>spaces(4)</script><td>]</td><script>spaces(2)</script><td>=></td><script>spaces(4)</script><td>";
+    print_r( $v );
+    echo "</td></tr>";
+  }
+  echo "<tr><td><br></td></tr>";
 }
 
 echo "</table>";

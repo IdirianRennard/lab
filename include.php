@@ -28,26 +28,33 @@ $splunk_dropdown = [
 
 asort( $splunk_dropdown );
 
+if ( isset( $_GET['dt'] ) ) {
+  $dt = $_GET['dt'];
+
+  $dt = urldecode( base64_decode( $dt ) );
+  
+  parse_str( $dt, $dt );
+  
+  ksort( $dt );
+  console( $dt );
+}
 
 $return_file_path = 'https://localhost' . rtrim(  $_SERVER['PHP_SELF'], basename( $_SERVER['PHP_SELF'] ) ) ;
 
+$date = new DateTime('today');
+$date_holder = "  " . $date->format( 'm/d/Y' );
+
 ?>
-
-<script>
-let delay = 12000000;
-let redirect_url = 'reset.php';
-
-setTimeout(function(){ window.location = redirect_url; }, delay);
-</script>
 
 <title>Idirian's Lab</title>
 <link rel="stylesheet" href="css/styles.css">
-<link rel="stylesheet" href="css/ui_mod.css">
 <link rel="stylesheet" href="https://code.jquery.com/ui/jquery-ui-git.css" >
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://momentjs.com/downloads/moment.js"></script>
 <script src="js/scripts.js"></script>
+<link rel="stylesheet" href="css/ui_mod.css">
+<script> let accord = new Array (); </script>
 
 <table class='titlebar'>
   <tr>
@@ -82,111 +89,146 @@ setTimeout(function(){ window.location = redirect_url; }, delay);
   </tr>
 </table>
 <?php
-echo "<table class='$right_nav'>";
+echo "<div class='$right_nav' id='accordion'>";
   
-  foreach ($help_options as $k => $v) {
-    echo "<tr><td align='right'>";
-
+  foreach ( $help_options as $k => $v ) {
+    
     switch ( $k ) {
+
       case 'admin':
-        echo "<table class='$nav_table'>";
-
-          echo "<tr><td colspan='42' align='center'>";
+        echo "<h3>  $v</h3>";
+        echo "<div>";
+          echo "<p align='center'>";
             echo "Admin Account:<br><br><input type='text' size='20' id='acct_number' placeholder='  Enter Acct Identifier'><br><br>";
-          echo "</tr></td>";
-          
-            echo "<tr>";
-              echo "<td align='left'><label class='$switch_class'><input type='checkbox' id='home'><span class='slider round'></span></label><font color='#003D6B'>Home</td>";
-              echo "<td align='left'><label class='$switch_class'><input type='checkbox' id='activity'><span class='slider round'></span></label><font color='#003D6B'>Activity</td>";
-              echo "<td align='left'><label class='$switch_class'><input type='checkbox' id='transaction'><span class='slider round'></span></label><font color='#003D6B' >Txn</td>";
-            echo "</tr>";
-
-            echo "<tr>";
-              echo "<td align='left'><label class='$switch_class'><input type='checkbox' id='products'><span class='slider round'></span></label><font color='#003D6B' >Prod</td>";
-              echo "<td align='left'><label class='$switch_class'><input type='checkbox' id='service'><span class='slider round'></span></label><font color='#003D6B' >Service</td>";
-              echo "<td align='left'><label class='$switch_class'><input type='checkbox' id='all'><span class='slider round'></span></label><font color='#003D6B' >All</td>"; 
-            echo "</tr>";
-          
-          echo "<tr><td colspan='42'><hr></td></tr>";
-              
-          echo "<tr>";
-            echo "<td align='left'><label class='$switch_class'><input type='checkbox' id='sandbox'><span class='slider round'</span></label><font color='#003D6B' >Sandbox</td>";
-            echo "<td></td>";
-            echo "<td align='right'><input type='submit' class='button' id='admin_button' value='OPEN'></td>";
-          echo "</tr>";
-
-        echo "</table>";
-        break;
+          echo "</p>";
+          echo "<p align='center'>";
+            echo "<table>";
+              echo "<tr>";
+                echo "<td align='left' width='25%'><label class='$switch_class'><input type='checkbox' id='home'><span class='slider round'></span></label><font color='#003D6B'>Home</td>";
+                echo "<td align='left' width='25%'><label class='$switch_class'><input type='checkbox' id='activity'><span class='slider round'></span></label><font color='#003D6B'>Activity</td>";
+                echo "<td align='left' width='25%'><label class='$switch_class'><input type='checkbox' id='transaction'><span class='slider round'></span></label><font color='#003D6B' >Txn</td>";
+              echo "</tr>";
+              echo "<tr>";
+                echo "<td align='left' width='25%'><label class='$switch_class'><input type='checkbox' id='products'><span class='slider round'></span></label><font color='#003D6B' >Prod</td>";
+                echo "<td align='left' width='25%'><label class='$switch_class'><input type='checkbox' id='service'><span class='slider round'></span></label><font color='#003D6B' >Service</td>";
+                echo "<td align='left' width='25%'><label class='$switch_class'><input type='checkbox' id='all'><span class='slider round'></span></label><font color='#003D6B' >All</td>";
+              echo "</tr>"; 
+            echo "</table>";
+            echo "<hr>";
+          echo "</p>";
+          echo "<p align='center'>";
+            echo "<table>";
+              echo "<tr>";
+                echo "<td><label class='$switch_class'><input type='checkbox' id='sandbox'><span class='slider round'</span></label><font color='#003D6B' >Sandbox</td>";
+                echo "<script>spaces(30)</script>";
+                echo "<td colspan='42' align='right'><input type='submit' class='button' id='admin_button' value='open'></td>";
+              echo "</tr>";
+            echo "</table>";
+          echo "</p>";
+        echo "</div>";
+      break;
 
       case 'JIRA' :
-        echo "<table class='nav_table'>";
-        echo "<tr><td>";
-        echo "JIRA Ticket:<br><br><input type='text' size='20' id='jira_ticket' placeholder='  Enter Ticket Number' required>";
-        echo "</tr></td>";
-        echo "<tr><td colspan='999'><hr></td></tr>";
-        echo "<tr><td align='right'><input type='submit' class='button' id='jira_button' value='open'></td></tr>";
-        echo "</table>";
-        break;
+        echo "<h3>  $v</h3>";
+        echo "<div>";
+          echo "<p align='center'>";
+            echo "JIRA Ticket:<br><br><input type='text' size='20' id='jira_ticket' placeholder='  Enter Ticket Number' required>";
+            echo "<hr>";
+          echo "</p>";
+          echo "<p align='right'>";
+            echo "<input type='submit' class='button' id='jira_button' value='open'>";
+          echo "</p>";
+        echo "</div>";
+      break;
 
       case 'splunk' :
-        echo "<table class='nav_table'>";
-          echo "<tr><td colspan='42' align='center'>Splunk Query:</td></tr>";
-          echo "<tr><td><br></td></tr><tr><td colspan='42' align='center'><input type='text' size='20' id='splunk' placeholder='  Enter Query' required>";
-          echo "<tr><td><br></td></tr>";
-          echo "<tr><td colspan='42' align='center'>";
+        echo "<h3>  $v</h3>";
+        echo "<div>";
+          echo "<p align='center'>";
+            echo "Splunk Query:";
+            echo "<br><br>";
+            echo "<input type='text' size='20' id='splunk' placeholder='  Enter Query' required>";
+            echo "<br><br>";
             echo "<select class='drop' id='cave_app'>";
-            echo "<option value='dis' disabled selected>Select Search App</option>";
-            foreach ( $splunk_dropdown as $k => $v ) {
-              echo "<option value='$k'>$v</option>";
-            }
+              echo "<option value='dis' disabled selected>Select Search App</option>";
+              foreach ( $splunk_dropdown as $k => $v ) {
+                echo "<option value='$k'>$v</option>";
+              }
             echo "</select>";
-        echo "<tr><td><br></td></tr>";
-        echo "<tr><td>Start Time: </td><td><input type='text' id='cave_start_datepicker' name='cave_start_date' placeholder=' 01/01/2000' required></td></tr>";
-        echo "<tr><td>End Time: </td><td><input type='text' id='cave_end_datepicker' name='cave_end_date' placeholder=' 01/01/2000' required></td></tr>";
-        echo "<tr><td colspan='999'><hr></td></tr>";
-        echo "<tr><td colspan='42'align='right'><input type='submit' class='button' id='cave_dive' value='open'></td></tr>";
-        echo "</table>";
-        break;
-
-      case 'ui_settings' :
-        echo "<div id='ui_tile'>";
-        echo "<button type='button' id='open_ui' class='nav_table_button'><img src='settings.png' height='25px'></button>";
+            echo "<br><br>";
+            echo "<table>";
+              echo "<tr><td>Start Time: </td><td><input type='text' id='cave_start_datepicker' name='cave_start_date' placeholder='$date_holder' required></td></tr>";
+              echo "<tr><td>End Time: </td><td><input type='text' id='cave_end_datepicker' name='cave_end_date' placeholder='$date_holder' required></td></tr>";
+            echo "</table>";  
+            echo "<hr>";
+          echo "</p>";
+          echo "<p align='right'>";
+            echo "<input type='submit' class='button' id='cave_dive' value='open'>";
+          echo "</p>";
         echo "</div>";
-        break;
+      break;
 
-      case 'cal' :
-        echo "<table class='nav_table'>";
-        echo "<tr><td colspan='42' align='center'>Sherlock Query:</td></tr>";
-        echo "<tr><td><br></td></tr><tr><td colspan='42'><input type='text' size='20' id='sherlock' placeholder='  Enter Query' required></td></tr>";
-        echo "<tr><td><br></td></tr>";
-        echo "<tr><td colspan='42' align='center'><label class='$switch_class'><input type='checkbox' id='cal_sb'><span class='slider round'</span></label>Sandbox";
-        echo "<tr><td><br></td></tr>";
-        echo "<tr><td>Start Time: </td><td><input type='text' id='cal_start_datepicker' name='cal_start_date' placeholder=' 01/01/2000' required></td></tr>";
-        echo "<tr><td>End Time: </td><td><input type='text' id='cal_end_datepicker' name='cal_end_date' placeholder=' 01/01/2000' required></td></tr>";
-        echo "<tr><td colspan='999'><hr></td></tr>";
-        echo "<tr><td colspan='42'align='right'><input type='submit' class='button' id='game_is_afoot' value='open'></td></tr>";
-        echo "</table>";
-        break;
+      case 'sherlock' :
+        echo "<h3>  $v</h3>";;
+        echo "<div>";
+          echo "<p align='center'>";
+            echo "Sherlock Query:";
+            echo "<br><br>";
+            echo "<input type='text' size='20' id='sherlock' placeholder='  Enter Query' required>";
+            echo "<br><br>";
+            echo "<table>";
+              echo "<tr><td>Start Time: </td><td><input type='text' id='cal_start_datepicker' name='cal_start_date' placeholder='$date_holder' required></td></tr>";
+              echo "<tr><td>End Time: </td><td><input type='text' id='cal_end_datepicker' name='cal_end_date' placeholder='$date_holder' required></td></tr>";
+            echo "</table>";
+            echo "<hr>";
+          echo "</p>";
+          echo "<p align='right'>";
+            echo "<input type='submit' class='button' id='game_is_afoot' value='open'>";
+          echo "</p>";
+        echo "</div>";
+      break;
 
       case 'tealeaf' :
-        echo "<table class='nav_table'>";
-        echo "<tr><td colspan='42' align='center'>";
-        echo "Tealeaf Query:<br><br><input type='text' size='20' id='tealeaf' placeholder='  Enter Query' required>";
-        echo "</tr></td>";
-        echo "<tr><td><br></td></tr>";
-        echo "<tr><td>Start Time: </td><td><input type='text' id='tl_start_datepicker' name='tl_start_date' placeholder=' 01/01/2000' required></td></tr>";
-        echo "<tr><td>End Time: </td><td><input type='text' id='tl_end_datepicker' name='tl_end_date' placeholder=' 01/01/2000' required></td></tr>";
-        echo "<tr><td colspan='999'><hr></td></tr>";
-        echo "<tr><td colspan='42'align='right'><input type='submit' class='button' id='make_tea' value='open'></td></tr>";
-        echo "</table>";
-        break;
+        echo "<h3>  $v</h3>";
+        echo "<div>";
+          echo "<p align='center'>";
+            echo "Tealeaf Query:";
+            echo "<br><br>";
+            echo "<input type='text' size='20' id='tealeaf' placeholder='  Enter Query' required>";
+            echo "<br><br>";
+            echo "<table>";
+              echo "<tr><td>Start Time: </td><td><input type='text' id='tl_start_datepicker' name='tl_start_date' placeholder='$date_holder' required></td></tr>";
+              echo "<tr><td>End Time: </td><td><input type='text' id='tl_end_datepicker' name='tl_end_date' placeholder='$date_holder' required></td></tr>";    
+            echo "</table>";
+            echo "<hr>";
+          echo "</p>";
+          echo "<p align='right'>";
+            echo "<input type='submit' class='button' id='make_tea' value='open'>";
+          echo "</p>";
+        echo "</div>";
+      break;
 
       default:
-        echo "<form action ='$k' target='_blank'><input type='submit' class='nav' value='$v'></form></td></tr><tr><td><br>";
-        break;
+      break;
     }
-    echo "</td></tr>";
   }
-  ?>
+echo "</div>";
+
+foreach ($help_options as $k => $v) {
+  echo "<script>accord.push('$v')</script>";
+}
+?>
 </table>
 <div id='warning'></div>
+
+<script>;
+  $(document).ready( function () {;
+    accord.forEach( e => {
+      for ( let i = 0 ; i < $( 'font' ).length ; i++ ) {
+        if ( e == $( 'font' )[i].innerHTML ) {
+          $( 'font' )[i].replaceWith( e );
+        }
+      }
+    } );
+  } );
+</script>
