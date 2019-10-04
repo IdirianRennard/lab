@@ -82,12 +82,10 @@ $sub_url = $base_url . "/v1/billing/subscriptions";
 
 $data = new data ();
 
-$tomorrow = date( 'Y' ) . '-';
-$tomorrow .= date( 'm' ) . '-';
-$tomorrow .= ( date( 'd' ) + 1 ) . 'T00:00:00Z'; 
+$tomorrow = new DateTime('tomorrow');
 
 $data->plan_id = $sub->id;
-$data->start_time = $tomorrow;
+$data->start_time = $tomorrow->format( 'Y-m-d' ) . "T00:00:00Z";;
 $data->quantity = 1;
 $data->subscriber = new data ();
 
@@ -109,10 +107,13 @@ $data->application_context->payment_method->payer_selected = "PAYPAL";
 $data->application_context->payment_method->payee_preferred = "IMMEDIATE_PAYMENT_REQUIRED";
 
 $dt = [
-  'RFP'     =>  $return_file_path,
-  'Client'  =>  $clientid,
-  'Secret'  =>  $secret,
+  'rfp'     =>  "$return_file_path/rest-sub-v1-return.php",
+  'client'  =>  $clientid,
+  'secret'  =>  $secret,
   'env'     =>  $enviroment,
+  'amt'     =>  $_POST['amount'],
+  'cur'     =>  $_POST['currency'],
+  'setup'   =>  $_POST['setup'],
 ];
 
 $dt = base64_encode( http_build_query( $dt ) );

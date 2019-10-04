@@ -56,7 +56,7 @@ function currency_dropdown() {
   return $message;
 }
 
-function nvp_api ( $endpoint, $data ) {
+function nvp_api ( $endpoint, $data, $header ) {
 
   echo "<script>console.log( 'ENDPOINT : $endpoint' )</script>";
 
@@ -68,7 +68,15 @@ function nvp_api ( $endpoint, $data ) {
     $request_id .= $characters[mt_rand(0, strlen($characters) - 1)];
   }
 
-  $headers[] = "X-VPS-REQUEST-ID: $request_id";
+  $headers = array();
+
+  if ( $header == NULL ) {
+    $headers[] = "X-VPS-REQUEST-ID: $request_id";
+  } else {
+    foreach( $header as $k => $v ) {
+      $headers[$k] = $v;
+    }
+  }
 
   foreach( $headers as $k => $v ) {
     echo "<script>console.log( '$v' )</script>";
@@ -109,9 +117,9 @@ function nvp_api ( $endpoint, $data ) {
     $result = strstr( $resp, 'TOKEN' );
   } else {
     if ( strstr( $resp, 'RESULT' ) == '' ) {
-      $result = strstr( $resp, 'RESULT' );
-    } else {
       $result = strstr( $resp, 'TIMESTAMP' );
+    } else {
+      $result = strstr( $resp, 'RESULT' );
     }
   }
 
@@ -135,6 +143,8 @@ function rest_oauth ( $clientid, $secret, $env ) {
   } else {
     $token_url = "https://api.sandbox.paypal.com/v1/oauth2/token";
   }
+
+  console( $token_url );
 
   $ch = curl_init();
 
@@ -186,13 +196,13 @@ function rest_api ( $endpoint, $data, $token ) {
 
   curl_setopt( $ch, CURLOPT_URL, $endpoint );
   curl_setopt( $ch, CURLOPT_HTTPHEADER, $header);
-  curl_setopt( $ch, CURLOPT_POST, true );
   curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
   curl_setopt( $ch, CURLOPT_HEADER, true );
 
   if ( $data === NULL ) {
-    
+    curl_setopt( $ch, CURLOPT_HTTPGET, true );
   } else {
+    curl_setopt( $ch, CURLOPT_POST, true );
     echo "<script>console.log( 'DATA: $data' )</script>";
     curl_setopt( $ch, CURLOPT_POSTFIELDS, $data );
   }
@@ -228,14 +238,28 @@ function rest_api ( $endpoint, $data, $token ) {
   return $console['RESPONSE'];
 }
 
-function state_dropdown() {
+function state_dropdown( $state ) {
   $us_state_abbrevs = array('AL', 'AK', 'AS', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FM', 'FL', 'GA', 'GU', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MH', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'MP', 'OH', 'OK', 'OR', 'PW', 'PA', 'PR', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VI', 'VA', 'WA', 'WV', 'WI', 'WY', 'AE', 'AA', 'AP');
  
   echo "<select name='STATE' required>";
-  echo "<option selected disabled>State</option>";
-  foreach ( $us_state_abbrevs as $k => $v ) {
-    echo "<option value='$v'>$v</option>";
+
+  if ( $state == NULL ) {
+    echo "<option selected disabled>State</option>";
+    foreach ( $us_state_abbrevs as $k => $v ) {
+      echo "<option value='$v'>$v</option>";
+    }
+  } else { 
+    echo "<option disabled>State</option>";
+    foreach ( $us_state_abbrevs as $k => $v ) {
+      if ( $v == $state ) {
+        echo "<option value='$v' selected>$v</option>";
+      } else {
+        echo "<option value='$v'>$v</option>";
+      }
+      
+    }
   }
+  
   echo "</select>";
 }
 

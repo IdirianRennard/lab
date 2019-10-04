@@ -95,7 +95,28 @@ echo "<div class='$right_nav' id='accordion'>";
     
     switch ( $k ) {
 
-      case 'admin':
+      case 'background' : 
+        echo "<h3>  $v</h3>";
+        echo "<div>";
+          echo "<p align='center'>";
+            echo "<form action='upload.php' method='post' enctype='multipart/form-data'>";
+              echo "<table>";
+                echo "<tr>";
+                  echo "<td align='center'>Wallpaper Change:<br><br></td>";
+                echo "</tr>";
+                echo "<tr>";
+                  echo "<td align='center'><input type='file' name='fileToUpload' id='fileToUpload' class='upload'>";
+                echo "</tr>";
+                echo "<tr>";
+                  echo "<td align='right'><input type='submit' class='button' id='upload_button' value='update'></td>";
+                echo "</tr>";
+              echo "</table>";
+            echo "</form>";
+          echo "</p>";
+        echo "</div>";
+      break;
+
+      case 'admin' :
         echo "<h3>  $v</h3>";
         echo "<div>";
           echo "<p align='center'>";

@@ -6,9 +6,9 @@ $dt = urldecode( base64_decode( $dt ) );
 
 parse_str( $dt, $data );
 
-$rtp = $data['RFP'];
+$rtp = $data['rfp'];
 
 $get = urldecode( http_build_query( $_GET ) );
 
-header( "location: $rtp" . "rest-sub-v1-return.php?$get" );
+header( "location: $rtp?$get" );
 ?>

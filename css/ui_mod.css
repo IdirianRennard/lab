@@ -24,7 +24,7 @@
   text-align: center;
   text-decoration: underline;
   border-radius: 25px;
-  background: silver;
+  background: #C0C0C0;
   background-repeat: no-repeat;
   background-size: contain;
   border-radius: 25px;
@@ -37,7 +37,7 @@
 .hover-content {
     display: none;
     position: absolute;
-    background-color: silver;
+    background-color: #C0C0C0;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
@@ -71,7 +71,7 @@
   text-align: center;
   text-decoration: underline;
   border-radius: 25px;
-  background: silver;
+  background: #C0C0C0;
   background-repeat: no-repeat;
   background-size: contain;
   border-color: #003D6B;
@@ -81,7 +81,7 @@
 .nav:hover {
   width: 15em;
   text-align: center;
-  border-color: silver;
+  border-color: #C0C0C0;
   background: #003D6B;
   color: white;
 }
@@ -96,7 +96,7 @@
   text-align: center;
   text-decoration: underline;
   border-radius: 25px;
-  background: silver;
+  background: #C0C0C0;
   background-repeat: no-repeat;
   background-size: contain;
   border-radius: 25px;
@@ -112,7 +112,7 @@
   text-align: center;
   text-decoration: underline;
   border-radius: 25px;
-  background: silver;
+  background: #C0C0C0;
   background-repeat: no-repeat;
   background-size: contain;
   border-radius: 25px;
@@ -141,11 +141,10 @@
   margin-top: 2em;
   margin-left: 2em;
   margin-right: 2em;
-  /*width: 80%;*/
   max-width: 80%;
   text-align: left;
   border-radius: 25px;
-  background: silver;
+  background: #C0C0C0;
   color: #003D6B;
   border-color: #003D6B;
   border-width: thick;
@@ -163,10 +162,75 @@
   border-color: #003D6B;
   border-style: outset;
   border-width: 5px;
-  background: silver;
+  background: #C0C0C0;
   color: #003D6B;
   font-size: 300%;
   width: 80%;
+}
+
+.ui-accordion {
+  border-radius: 25px;
+}
+
+.ui-accordion-content {
+  background-color: #C0C0C0;
+  color: #003D6B;
+  border-color: #003D6B;
+  border-style: outset;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-right-width: 5px;
+  border-left-width: 5px;
+}
+
+.ui-accordion-header {
+  background-color: #C0C0C0;
+  color: #003D6B;
+  border-color: #003D6B;
+  border-style: outset;
+  border-radius: 5px;
+  border-right-width: 5px;
+  border-left-width: 5px;
+}
+
+.ui-accordion-header:hover {
+  background-color: #003d6b;
+  color: #FFFFFF;
+  border-color: #c0c0c0;
+  border-style: outset;
+  border-radius: 5px;
+  text-decoration: underline;
+  border-right-width: 5px;
+  border-left-width: 5px;
+}
+
+.ui-accordion-header-active {
+  background: #003D6B;
+  color: #FFFFFF;
+  border-color: #C0C0C0;
+  border-style: outset;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-right-width: 5px;
+  border-left-width: 5px;
+}
+.ui-accordion-header-active:hover {
+  background: #003D6B;
+  color: #FFFFFF;
+  border-color: #C0C0C0;
+  border-style: outset;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-right-width: 5px;
+  border-left-width: 5px;
+}
+
+.ui-accordion-header-icon-active {
+  color: #FFFFFF;
 }
 
 /* Elements Alphabetically */

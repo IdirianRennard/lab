@@ -1,26 +1,7 @@
 <?php
 include 'include.php';
 
-if ( $_POST['intent'] === 'subscription' ) {
-  
-} else {
-  $create_url   = 'jsv4/v2-server-nvp-setec.php';
-  $execute_url  = 'jsv4/v2-server-nvp-doec.php';
-  $_SESSION['vault'] = 'false';
-}
-
-foreach( $_POST as $k => $v ) {
-  $_SESSION["$k"] = $v;
-} 
-
 $ip = $_SERVER['REMOTE_ADDR'];
-
-/*$append = [
-  'client'  =>  $_POST['client'],
-  'intent'  =>  $_SESSION['intent'],
-  'commit'  =>  'true',
-  'vault'   =>  $_SESSION['vault'],
-];*/
 
 $cred_append = [
   'user'    =>  $_POST[ 'USER' ],
@@ -34,17 +15,29 @@ $cred_append = [
   'cancel'  =>  "$return_file_path/test?cancel=true",
 ];
 
-if ( $_POST[ 'intent'] == 'capture' ) {
-  $cred_append['action'] = 'sale';
-} else {
-  $cred_append['action'] = 'authorization';
+switch ( $_POST[ 'intent']  ) {
+  case 'capture' :
+    $cred_append['action'] = 'sale';
+    $create_url   = 'jsv4/v2-server-nvp-setec.php';
+    $execute_url  = 'jsv4/v2-server-nvp-doec.php';
+  break;
+
+  case 'authorize' :
+    $cred_append['action'] = 'authorization';
+    $create_url   = 'jsv4/v2-server-nvp-setec.php';
+    $execute_url  = 'jsv4/v2-server-nvp-doec.php';
+  break;
+
+  case 'subscription' :
+    $create_url   = 'jsv4/v2-server-nvp-sub-cre.php';
+    $execute_url  = 'jsv4/v2-server-nvp-sub-exe.php';
+    $cred_append['freq'] = $_POST['freq'];
+    $cred_append['interval'] = $_POST['freq_interval'];
+    $cred_append['cycles'] = $_POST['cycles'];
+  break;
 }
 
-//ksort( $append );
-
 ksort( $cred_append );
-
-//$append = urldecode( http_build_query( $append ) );
 
 $cred_append = base64_encode( urldecode( http_build_query( $cred_append ) ) );
 console ( $cred_append );
@@ -63,11 +56,11 @@ $url = "https://www.paypal.com/sdk/js?client-id=" . $_POST[ 'client' ];
 <script>
   paypal.Buttons( {
     style: {
-        layout: '<?php echo $_SESSION['layout']; ?>',
-        color:  '<?php echo $_SESSION['color']; ?>',
-        shape:  '<?php echo $_SESSION['shape']; ?>',
-        label:  '<?php echo $_SESSION['label']; ?>',
-        height: <?php echo (int)$_SESSION['size']; ?>
+        layout: '<?php echo $_POST['layout']; ?>',
+        color:  '<?php echo $_POST['color']; ?>',
+        shape:  '<?php echo $_POST['shape']; ?>',
+        label:  '<?php echo $_POST['label']; ?>',
+        height: <?php echo (int)$_POST['size']; ?>
     },
 
     createOrder: function () {

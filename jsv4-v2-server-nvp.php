@@ -58,13 +58,10 @@ $layout = [
 $intent = [
   'capture' => 'Sale',
   'authorize' => 'Authorization',
-  //'order' => 'Order',
   'subscription' => 'Subscription',
 ];
 
 asort( $intent );
-
-//$return_url = $return_file_path . 'rest_payments_return.php';
 
 ?>
 <div id='check'></div>
@@ -73,10 +70,7 @@ asort( $intent );
   <tr>
     <td>Enviroment:</td>
     <script>spaces(4)</script>
-    <td>
-      <script>
-        env_dropdown();
-      </script>
+    <td><script>env_dropdown()</script>
     </td>
   </tr>
   <tr><td><br></td></tr>
@@ -114,6 +108,7 @@ asort( $intent );
         echo "<option value='$k'>$v</option>";
       }
       ?>
+    </td>
   </tr>
   <tr><td><br></td></tr>
   <tr>
@@ -196,3 +191,26 @@ asort( $intent );
   </tr>
 </table>
 </form>
+<script>
+$(document).ready( function () {
+
+  $('#intent').on('change', function( e ) {
+    if ( e.target.value == 'subscription' ) {
+      let message = "Frequency:<br><select class='drop' name='freq' required>";
+      message += "<option selected disabled>Please Choose a Frequency</option>";
+      message += "<option value='day'>Day</option>";
+      message += "<option value='week'>Week</option>";
+      message += "<option value='month'>Month</option>";
+      message += "<option value='year'>Year</option>";
+      message += "</select><br><br>";
+      message += "Frequency Interval:<br><input type='number' name='freq_interval' maxlength='4' min='1' max='5' placeholder='( 1 - 5 )' required><br><br>";
+      message += "Cycles:<br><input type='number' name='cycles' maxlength='4' min='0' max='5' placeholder='( 0 - 10 )' required><br>";
+
+      $('#sub_options').html( message );
+    } else {
+      $('#sub_options').html( '' );
+    };
+  } );
+
+} );
+</script>

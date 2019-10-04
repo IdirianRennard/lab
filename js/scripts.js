@@ -11,7 +11,7 @@ function spaces(number) {
 function env_dropdown() {
   let message = "<select class='drop' id='enviroment' name='enviroment' required>";
 
-  message += "<option selected='selected' disabled='disabled'>Select Enviroment</option>";
+  message += "<option selected disabled>Select Enviroment</option>";
   message += "<option value='production'>Production</option>";
   message += "<option value='sandbox'>Sandbox</option>";
   message += "</select>";
@@ -33,6 +33,21 @@ function json_view( php_var ) {
 
 // jQuery functions
 $(document).ready( function () {
+
+  //Accodion view for Right Menu
+  $( function() {
+    var icons = {
+      header: "ui-icon-circle-plus",
+      activeHeader: "ui-icon-circle-minus"
+    };
+
+    $( "#accordion" ).accordion( {
+      active : false,
+      collapsible : true,
+      heightStyle : "content",
+      icons : icons
+    } );
+  } );
 
   // When clicking into an input field clear the value
   $('input').on( 'click', function(e) {
@@ -123,7 +138,12 @@ $(document).ready( function () {
 
   //Open Multiple Admin Tabs
   $( '#admin_button' ).on( 'click', function() {
-    let url  = 'https://admin.paypal.com';
+    let url  = '';
+    if ( $('#sandbox').prop('checked') ) {
+      url += 'https://admin.sandbox.paypal.com';
+    } else {
+      url += 'https://admin.paypal.com';
+    }
 
     if ( $('#acct_number').val() == '' ) {
       window.open( url + '/cgi-bin/admin' );
@@ -258,11 +278,15 @@ $(document).ready( function () {
     if ( $('#splunk').val() == '' ) {
 
     } else {
-      let env = 'paypal'
-      if ( $('#cave_pf').prop('checked') ) {
-        env = 'payflow';
+      let env = '';
+      if ( $('#cave_app').val() == 'search' ) {
+        
+      } else {
+        env += '-'; 
+        env += $('#cave_app').val();
+        console.log( env );
       }
-
+  
       let q = "search " + $('#splunk').val();
 
       let fr_date = $('#cave_start_datepicker').val() + " 02:00";
@@ -278,20 +302,20 @@ $(document).ready( function () {
 
       let end = moment( end_date, "M/D/YYYY H:mm").unix();
     
-      let search = 'https://internal.paypalinc.com/splunkgp/en-US/app/search-' + env + '/search?earliest=' + start + '&latest=' + end + '&q=' + q;
+      let search = 'https://internal.paypalinc.com/splunkgp/en-US/app/search' + env + '/search?earliest=' + start + '&latest=' + end + '&q=' + q;
       window.open( search );
     }
 
     $('#splunk' ).val("");
     $('#cave_start_datepicker' ).val("");
-    $('#cave_pf').prop('checked', false );
     $('#cave_end_datepicker' ).val("");
+    $('#cave_app').val("dis");
     $('#splunk' ).attr('placeholder', '  Enter Query' );
     $('#cave_start_datepicker' ).attr('placeholder', '  01/01/2000' );
     $('#cave_end_datepicker' ).attr('placeholder', '  01/01/2000' );
   } )
 
-  //Open TeaLeaf in new Page
+  //Open Tealeaf in new Page
   $( '#make_tea' ).on( 'click', function(e) {
     
     if ( $( '#tealeaf' ).val() == '' ) {

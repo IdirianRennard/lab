@@ -29,12 +29,7 @@ include 'include.php';
         Enviroment:
       </td>
       <td></td>
-      <td colspan='42'>
-        <select id='enviroment' class='drop' class='drop' name='enviroment' required>
-          <option selected='selected' disabled='disabled'>Select Enviroment</option>
-          <option value='production'>Production</option>
-          <option value='sandbox'>Sandbox</option>
-        </select>
+      <td colspan='42'><script>env_dropdown()</script>
       </td>
     <tr>
     <tr>

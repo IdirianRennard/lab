@@ -73,11 +73,7 @@ $return_url = $return_file_path . 'rest_payments_return.php';
   <tr>
     <td>Enviroment:</td>
     <script>spaces(4)</script>
-    <td>
-      <script>
-        env_dropdown();
-      </script>
-    </td>
+    <td><script>env_dropdown()</script></td>
   </tr>
   <tr><td><br></td></tr>
   <tr>

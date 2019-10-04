@@ -46,7 +46,6 @@ $gen = [
   'lorax' => 'Lorax',
   'base_64_decode' => 'Decode: Base 64',
   'ipn_wh_call_sim' => 'IPN/Webhook Call Simulator',
-  //'fw-redirect' => 'Redirection',
 ];
 
 asort( $gen );
@@ -179,10 +178,10 @@ $menu_options['Helpful_Links'] = $help_options;
 $menu_options = array( 'General_Testing' => $gen ) + $menu_options;
 
 $help_options = [
-  'ui_settings' =>  'UI Settings',
-  'admin'       =>  'Admin Accts',
-  'cal'         =>  'Sherlock',
-  'splunk'      =>  'splunk',
+  'background'  =>  'Background Settings',
+  'admin'       =>  'Admin',
+  'sherlock'    =>  'Sherlock',
+  'splunk'      =>  'Splunk',
   'tealeaf'     =>  'Tealeaf',
   'JIRA'        =>  'JIRA',
 ];

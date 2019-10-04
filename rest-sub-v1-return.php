@@ -18,14 +18,35 @@ $return_file_path = 'https://localhost' . rtrim(  $_SERVER['PHP_SELF'], basename
 echo "<table>";
 foreach ($myvars as $k => $v) {
   ksort( $myvars[$k] );
-  if ( $k !== '_SERVER' ) {
+  if ( $k !== '_SERVER' && $k !== 'currency' ) {
     echo "<tr><td>$k:</td></tr>";
     foreach ($myvars[$k] as $k => $v) {
       echo "<tr><td></td><td>[</td><script>spaces(4)</script><td>$k</td><script>spaces(4)</script><td>]</td><script>spaces(2)</script><td>=></td><script>spaces(4)</script><td>";
       print_r( $v );
       echo "</td></tr>";
     }
+    echo "<tr><td><br></td></tr>";
   }
+}
+
+if ( isset( $_GET['dt'] ) ) {
+  $dt = $_GET['dt'];
+
+  $dt = urldecode( base64_decode( $dt ) );
+  
+  parse_str( $dt, $dt );
+  
+  ksort( $dt );
+
+  console( $dt );
+  
+  echo "<tr><td>dt:</td></tr>";
+  foreach ( $dt as $k => $v ) {
+    echo "<tr><td></td><td>[</td><script>spaces(4)</script><td>$k</td><script>spaces(4)</script><td>]</td><script>spaces(2)</script><td>=></td><script>spaces(4)</script><td>";
+    print_r( $v );
+    echo "</td></tr>";
+  }
+  echo "<tr><td><br></td></tr>";
 }
 
 echo "</table>";
@@ -38,17 +59,11 @@ class data {
 
 }
 
-$dt = $_GET['dt'];
+$enviroment = $dt['env'];
 
-$dt = urldecode( base64_decode( $dt ) );
+$client = $dt['client'];
 
-parse_str( $dt, $data );
-
-$enviroment = $data['env'];
-
-$client = $data['Client'];
-
-$secret = $data['Secret'];
+$secret = $dt['secret'];
 
 $token = rest_oauth( $client, $secret, $enviroment );
 
@@ -59,14 +74,21 @@ $data->reason = "Create new subscription";
 $data = json_encode( $data );
 
 if ( $enviroment == 'production' ) {
-    $base_url = "https://api.paypal.com";
+  $base_url = "https://api.paypal.com";
 } else {
-    $base_url = "https://api.sandbox.paypal.com";
+  $base_url = "https://api.sandbox.paypal.com";
 }
 
-$url = $base_url . "/v1/billing/subsscriptions/" . $_GET['subscription_id'] . "/activate";
+$payment = new data ();
 
-$result = rest_api( $url, $data, $token );
+
+$url = $base_url . "/v1/billing/subscriptions/" . $_GET['subscription_id'];
+
+$result = rest_api( $url, NULL, $token );
+
+/*$url = $base_url . "/v1/billing/subscriptions/" . $_GET['subscription_id'] . "/activate";
+
+$result = rest_api( $url, $dt, $token );*/
 
 echo $result;
 

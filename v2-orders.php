@@ -64,13 +64,7 @@ ksort( $intent );
         Enviroment:
       </td>
       <td></td>
-      <td>
-        <select id='enviroment' class='drop' name='enviroment' required>
-          <option selected='selected' disabled='disabled'>Select Enviroment</option>
-          <option value='production'>Production</option>
-          <option value='sandbox'>Sandbox</option>
-        </select>
-      </td>
+      <td><script>env_dropdown()</script></td>
     </tr>
     <tr>
       <td colspan="42" align='right'>
