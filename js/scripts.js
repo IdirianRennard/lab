@@ -34,21 +34,6 @@ function json_view( php_var ) {
 // jQuery function
 $(document).ready( function () {
 
-  //Accodion view for Right Menu
-  $( function() {
-    var icons = {
-      header: "ui-icon-circle-plus",
-      activeHeader: "ui-icon-circle-minus"
-    };
-
-    $( "#accordion" ).accordion( {
-      active : false,
-      collapsible : true,
-      heightStyle : "content",
-      icons : icons
-    } );
-  } );
-
   // When clicking into an input field clear the value
   $('input').on( 'click', function(e) {
     if ( e.target.type !== 'submit' && e.target.type !== 'number' ) {
@@ -134,31 +119,6 @@ $(document).ready( function () {
 
   $( function() {
     $( "#datepicker3" ).datepicker( );
-  } );
-
-  $( function() {
-    $( "#cal_start_datepicker" ).datepicker( );
-  } );
-
-  $( function() {
-    $( "#cal_end_datepicker" ).datepicker( );
-  } );
-
-  $( function() {
-    $( "#cave_start_datepicker" ).datepicker( );
-  } );
-
-  $( function() {
-    $( "#cave_end_datepicker" ).datepicker( );
-  } );
-
-
-  $( function() {
-    $( "#tl_start_datepicker" ).datepicker( );
-  } );
-
-  $( function() {
-    $( "#tl_end_datepicker" ).datepicker( );
   } );
 
 
