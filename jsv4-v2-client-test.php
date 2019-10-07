@@ -5,12 +5,20 @@ $clientid = $_POST[ 'client' ];
 
 $tag_url = 'https://www.paypal.com/sdk/js?client-id=' . $clientid;
 
+if ( $_POST['amount'] == 0 ) {
+  $input_box = "<tr><td>Set Value to Pay:  <input type='text' id='input_amount' placeholder='  $00.00'><br><br></td></tr>";
+  $amount = "$( '#input_amount' ).val()";
+} else { 
+  $amount = $_POST['amount'];
+}
+
 ?>
 <head>
     <script src='<?php echo $tag_url; ?>'></script>
 </head>
 
 <table class='table'>
+  <?php echo $input_box; ?>
   <tr><td id="paypal-button-container"></td></tr>
 </table>
 
@@ -27,7 +35,7 @@ $tag_url = 'https://www.paypal.com/sdk/js?client-id=' . $clientid;
       return actions.order.create({
         purchase_units: [{
           amount: {
-            value: '<?php echo $_POST['amount']; ?>'
+            value: <?php echo $amount ?>
           }
         }]
       });

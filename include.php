@@ -1,33 +1,29 @@
 <?php
 session_start();
 include "include/credentials.php";
-include "include/menu_options.php";
 include "include/rest_functions.php";
+
+//JS setup for initialization
+echo "<script> \n\n";
+
+// Broswer Detection
 include "include/browser_detection.php";
+  $browser = new Wolfcast\BrowserDetection();
+  echo "console.log( 'BROWSER : " . $browser->getName() ."' )\n";
 
-$browser = new Wolfcast\BrowserDetection();
-echo "<script>console.log( 'BROWSER : " . $browser->getName() ."' )</script>";
+echo "\n";
 
-if ( $browser->getName() == 'Chrome' ) {
-  $switch_class = 'chr_switch';
-  $nav_table = 'chr_nav_table';
-  $right_nav= 'chr_right_nav';
-} else {
-  $switch_class = 'switch';
-  $nav_table = 'nav_table';
-  $right_nav= 'right_nav';
-}
+// Set return URLs for any location in lab, made for local host
+  $return_file_path = 'https://localhost' . rtrim(  $_SERVER['PHP_SELF'], basename( $_SERVER['PHP_SELF'] ) );
+  echo "let rfp = '$return_file_path'; \n";
+  echo "console.log( 'RETURN FILE PATH: ' + rfp ) \n";
 
-$splunk_dropdown = [
-  'paypal'    =>  'PayPal',
-  'payflow'   =>  'Payflow',
-  'mts'       =>  'MTS',
-  'search'    =>  'Search & Reporting',
-  'globalops' =>  'Global Ops',
-];
+echo "\n";
 
-asort( $splunk_dropdown );
+//End JS Initialization;
+echo "</script>";
 
+//Output _GET['dt'] to the console
 if ( isset( $_GET['dt'] ) ) {
   $dt = $_GET['dt'];
 
@@ -38,12 +34,6 @@ if ( isset( $_GET['dt'] ) ) {
   ksort( $dt );
   console( $dt );
 }
-
-$return_file_path = 'https://localhost' . rtrim(  $_SERVER['PHP_SELF'], basename( $_SERVER['PHP_SELF'] ) ) ;
-
-$date = new DateTime('today');
-$date_holder = "  " . $date->format( 'm/d/Y' );
-
 ?>
 
 <title>Idirian's Lab</title>
@@ -54,191 +44,223 @@ $date_holder = "  " . $date->format( 'm/d/Y' );
 <script src="https://momentjs.com/downloads/moment.js"></script>
 <script src="js/scripts.js"></script>
 <link rel="stylesheet" href="css/ui_mod.css">
-<script> let accord = new Array (); </script>
 
-<table class='titlebar'>
-  <tr>
-    <td colspan='42' align='center'><a href='./'>Idirian's Lab</a></td>
-  </tr>
-  <tr><td><font size='4em'><br></font></td><tr>
-  <tr>
-    <?php
-      $width = 100 / ( count ( $menu_options ) );
+<div id='tabs'></div>
 
-      foreach ( $menu_options as $k => $v ) {
-        echo "<td align='center' width='" . $width . "%'><table><tr><td>";
+<div class='right_nav' id='accordion'></div>
 
-        $vis_k = str_replace( "_" , " " , $k );
-
-        echo "<td class='nav_menu' id='$k' align='center'>$vis_k</td><td><i class='arrow down'></i></td></tr>";
-        echo "<tr><td><div id='$k-drop' class='hover-content'>";
-        echo "<script>";
-          echo "$(document).ready( function () {";
-
-            echo "$('#$k').on( 'mouseenter', function(e) {";
-              echo "$('#$k-drop').slideDown( 'fast' );";
-            echo "} );";
-
-            echo "$('#$k-drop').on( 'mouseleave', function(e) {";
-              echo "$('#$k-drop').slideUp( 'medium' );";
-            echo "} );";
-
-          echo "} );";
-        echo "</script>";
-
-        if ( $k == 'Helpful_Links' ) {
-          foreach ( $v as $page => $page_name ) {
-            echo "<a class='menu_link' href='$page' target='_blank'>$page_name</a>";
-          }
-        } else {
-          foreach ( $v as $page => $page_name ) {
-            echo "<a class='menu_link' href='$page.php'>$page_name</a>";
-          }
-        }
-
-        echo "</div></td></tr></table></td>";
-      }
-    ?>
-  </tr>
-</table>
-<?php
-echo "<div class='$right_nav' id='accordion'>";
-  
-  foreach ( $help_options as $k => $v ) {
-    
-    echo "<h3>  $v</h3>";
-    echo "<div>";
-      echo "<p align='center'>";
-    switch ( $k ) {
-
-      case 'background' : 
-        echo "<form action='upload.php' method='post' enctype='multipart/form-data'>";
-          echo "<table>";
-            echo "<tr>";
-              echo "<td align='center'>Wallpaper Change:<br><br></td>";
-            echo "</tr>";
-            echo "<tr>";
-              echo "<td align='center'><input type='file' name='fileToUpload' id='fileToUpload' class='nav_input' required>";
-            echo "</tr>";
-            echo "<tr><td><br></td></tr>";
-            echo "<tr>";
-              echo "<td align='right'><input type='submit' class='button' id='upload_button' value='update'></td>";
-            echo "</tr>";
-          echo "</table>";
-        echo "</form>";
-      break;
-
-      case 'admin' :
-        echo "Admin Account:<br><br><input type='text' size='20' id='acct_number' class='nav_input' placeholder='  Enter Acct Identifier'><br><br>";
-      echo "</p>";
-      echo "<p align='center'>";
-        echo "<table>";
-          echo "<tr>";
-            echo "<td align='left' width='25%'><label class='$switch_class'><input type='checkbox' id='home'><span class='slider round'></span></label><font color='#003D6B'>Home</td>";
-            echo "<td align='left' width='25%'><label class='$switch_class'><input type='checkbox' id='activity'><span class='slider round'></span></label><font color='#003D6B'>Activity</td>";
-            echo "<td align='left' width='25%'><label class='$switch_class'><input type='checkbox' id='transaction'><span class='slider round'></span></label><font color='#003D6B' >Txn</td>";
-          echo "</tr>";
-          echo "<tr>";
-            echo "<td align='left' width='25%'><label class='$switch_class'><input type='checkbox' id='products'><span class='slider round'></span></label><font color='#003D6B' >Prod</td>";
-            echo "<td align='left' width='25%'><label class='$switch_class'><input type='checkbox' id='service'><span class='slider round'></span></label><font color='#003D6B' >Service</td>";
-            echo "<td align='left' width='25%'><label class='$switch_class'><input type='checkbox' id='all'><span class='slider round'></span></label><font color='#003D6B' >All</td>";
-          echo "</tr>"; 
-        echo "</table>";
-        echo "<hr>";
-      echo "</p>";
-      echo "<p align='center'>";
-        echo "<table>";
-          echo "<tr>";
-            echo "<td><label class='$switch_class'><input type='checkbox' id='sandbox'><span class='slider round'</span></label><font color='#003D6B' >Sandbox</td>";
-            echo "<script>spaces(30)</script>";
-            echo "<td colspan='42' align='right'><input type='submit' class='button' id='admin_button' value='open'></td>";
-          echo "</tr>";
-        echo "</table>";
-      break;
-
-      case 'JIRA' :        
-        echo "JIRA Ticket:<br><br><input type='text' size='20' id='jira_ticket' class='nav_input' placeholder='  Enter Ticket Number' required>";
-        echo "<hr>";
-      echo "</p>";
-      echo "<p align='right'>";
-        echo "<input type='submit' class='button' id='jira_button' value='open'>";
-      break;
-
-      case 'splunk' :        
-        echo "Splunk Query:";
-        echo "<br><br>";
-        echo "<input type='text' size='20' id='splunk' class='nav_input' class='nav_input' placeholder='  Enter Query' required>";
-        echo "<br><br>";
-        echo "<select class='nav_input' id='cave_app'>";
-          echo "<option value='dis' disabled selected>Select Search App</option>";
-          foreach ( $splunk_dropdown as $k => $v ) {
-            echo "<option value='$k'>$v</option>";
-          }
-        echo "</select>";
-        echo "<br><br>";
-        echo "<table>";
-          echo "<tr><td>Start Time: </td><td><input type='text' id='cave_start_datepicker' name='cave_start_date' class='nav_input' placeholder='$date_holder' required></td></tr>";
-          echo "<tr><td>End Time: </td><td><input type='text' id='cave_end_datepicker' name='cave_end_date' class='nav_input' placeholder='$date_holder' required></td></tr>";
-        echo "</table>";  
-        echo "<hr>";
-      echo "</p>";
-      echo "<p align='right'>";
-        echo "<input type='submit' class='button' id='cave_dive' value='open'>";
-      break;
-
-      case 'sherlock' :
-        echo "Sherlock Query:";
-        echo "<br><br>";
-        echo "<input type='text' size='20' id='sherlock' class='nav_input' placeholder='  Enter Query' required>";
-        echo "<br><br>";
-        echo "<table>";
-          echo "<tr><td>Start Time: </td><td><input type='text' id='cal_start_datepicker' name='cal_start_date' class='nav_input' placeholder='$date_holder' required></td></tr>";
-          echo "<tr><td>End Time: </td><td><input type='text' id='cal_end_datepicker' name='cal_end_date' class='nav_input' placeholder='$date_holder' required></td></tr>";
-        echo "</table>";
-        echo "<hr>";
-      echo "</p>";
-      echo "<p align='right'>";
-        echo "<input type='submit' class='button' id='game_is_afoot' value='open'>";
-      break;
-
-      case 'tealeaf' :
-        echo "Tealeaf Query:";
-        echo "<br><br>";
-        echo "<input type='text' size='20' id='tealeaf' class='nav_input' placeholder='  Enter Query' required>";
-        echo "<br><br>";
-        echo "<table>";
-          echo "<tr><td>Start Time: </td><td><input type='text' id='tl_start_datepicker' name='tl_start_date' class='nav_input' placeholder='$date_holder' required></td></tr>";
-          echo "<tr><td>End Time: </td><td><input type='text' id='tl_end_datepicker' name='tl_end_date' class='nav_input' placeholder='$date_holder' required></td></tr>";    
-        echo "</table>";
-        echo "<hr>";
-      echo "</p>";
-      echo "<p align='right'>";
-        echo "<input type='submit' class='button' id='make_tea' value='open'>";
-      break;
-
-      default:
-      break;
-    }
-    echo "</p>";
-    echo "</div>";
-  }
-echo "</div>";
-
-foreach ($help_options as $k => $v) {
-  echo "<script>accord.push('$v')</script>";
-}
-?>
-</table>
 <div id='warning'></div>
 
 <script>;
-  $(document).ready( function () {;
-    accord.forEach( e => {
-      for ( let i = 0 ; i < $( 'font' ).length ; i++ ) {
-        if ( e == $( 'font' )[i].innerHTML ) {
-          $( 'font' )[i].replaceWith( e );
-        }
+  $(document).ready( function () {
+    let tabs = '';
+    //Get Accordion data 
+    $.getJSON ( 'ajax/accordion.php', function ( data ) {
+
+
+      // Loop through data, create each fold;
+      $.each( data , function( index , value )  {
+        let fold = 
+          "<h3>  " + value.name + "</h3>" + 
+          "<div id='" + index + "'></div>";
+        
+        $( '#accordion' ).append( fold );
+
+
+        //Fill each fold;
+        $.each( value.p , function ( k , v ) {
+          let p = '<p id="' + index + '-p' + k + '" align="' + v.align + '"></p>';
+
+          $( '#' + index ).append( p );
+          $( '#' + index + '-p' + k ).append( v.value );
+        } );
+      } );
+
+
+      //Set spaces bewtten sandbox toggle and open button
+      let spaces =  Number( $( '#admin-spaces' ).text() );
+      $( '#admin-spaces' ).text( '' );
+      let new_spaces = '';
+      for ( let i = 0 ; i < spaces ; i++ ) {
+        new_spaces += '\xa0';
       }
+      $( '#admin-spaces' ).text( new_spaces );
+
+
+      //Accodion view for Right Menu
+      $( function() {
+        var icons = {
+          header: "ui-icon-circle-plus",
+          activeHeader: "ui-icon-circle-minus"
+        };
+
+        $( "#accordion" ).accordion( {
+          active : false,
+          collapsible : true,
+          heightStyle : "content",
+          icons : icons
+        } );
+      } );
+    } );
+
+
+    //Accordion.Splunk set dropdown from splunk array menu
+    $.getJSON ( 'ajax/splunk_drop.php', function ( data ) {
+      $.each( data , function ( k , v ) {
+        $( '#cave_app' ).append ( new Option( v , k ) );
+      } )
+    } );
+    
+
+    //Get tab data
+    $.getJSON ( 'ajax/tabs.php', function ( data ) {
+      tabs = data;
+      
+      let found = false ;
+      let active = 0;
+
+      let tab_names = "<ul class='tabs tabs_nav' id='myTabs'>";
+
+      
+      //Set tab names
+      $.each( data , function ( key, value ) {
+        if ( found ) {
+
+        } else { 
+          if ( key == 'pypl' ) {
+            found = true; 
+          } else {
+            active++;
+          }
+        }
+      
+        tab_names += "<li><a href='#" + key + "'>" + value + "</li>";
+      } )
+      
+      tab_names += "</ul>";
+
+
+      //Set tab fill
+      $.each( data , function ( key, value ) {
+        tab_names += '<div id="' + key + '"><p id="' + key + '-inner"></p></div>';
+      } )
+      
+      $( "#tabs" ).html( tab_names );
+      
+      //Tabs for titlebar
+      $( function() {
+        $( "#tabs" ).tabs( {
+          active: active
+        } );
+      } );
+
+
+      //Modify CSS for tab fill
+      $( '#tabs' ).css( 'border-width', '0px' );
+
+      $.each( data, function ( key, value ) {
+        $( '#' + key ).css( 'padding' , '0' );
+        $( '#' + key + '-inner' ).css( 'margin', '0' );
+      } );
+      
+    } ).done( function() {
+
+      //Get the PayPal Tab's menus
+      $.getJSON ( 'ajax/pypl_menu.php', function ( data ) {
+
+        let width = data.width;
+        delete data.width; 
+
+        //Write the PayPal Tab's Titlebar, Menus, and Listeners
+        let titlebar =
+        "<table class='titlebar'>" +
+          "<tr>" +
+            "<td colspan='42' align='center'><a href='./'><font color='#003D6B'>Idirian's Lab</font></a></td>" +
+          "</tr>" +
+          "<tr><td><font size='4em'><br></font></td></tr>" +
+          "<tr>";
+
+
+          //Write the PayPal Tab's menu names
+          $.each( data , function ( key, value ) {
+            let vis_k = key.replace( '_', ' ');
+
+            titlebar += 
+              "<td align='center' width='" + width + "'>" +
+                "<table>" +
+                  "<tr>" + 
+                    "<td class='nav_menu' id='" + key + "'>" + vis_k + "  <i class='arrow down'></i></td>" + 
+                  "</tr>" +
+                  "<tr>" +
+                    "<td>" + 
+                      "<div id='" + key + "-drop' class='hover-content'>"; 
+            
+              
+              //Write PayPal Tab's menu contents
+              if ( key == 'Helpful_Links' ) {
+
+                //If Helpful_Links menu, open in new tab
+                $.each( value , function ( page, page_name ) {
+                  titlebar += "<a class='menu_link' href='" + page + "' target='_blank'>" + page_name + "</a>";
+                } )
+              } else {
+
+                //Links to each option
+                $.each( value , function ( page, page_name ) {
+                  titlebar += "<a class='menu_link' href='" + page + ".php#pypl'>" + page_name + "</a>";
+                } )
+              }
+
+            titlebar += "</div></td></tr></table></td>";
+          } );
+
+        
+          //Close PayPal Tab's menu row and table
+          titlebar += "</tr></table>";
+
+          
+          //Execute writing of the PayPal Tab contents
+          $( '#pypl-inner').html ( titlebar );
+
+
+          //Write the listeners for PayPal menus
+          $.each( data, function ( key, value ) {
+            $( '#' + key ).on( 'mouseenter', function(e) {
+            $( '#' + key + '-drop' ).slideDown( 'fast' );
+          } ); 
+
+          $( '#' + key + '-drop' ).on( 'mouseleave', function(e) {
+            $( '#' + key + '-drop' ).slideUp( 'medium' );
+          } );
+        } );
+
+
+        //Activate Date Pickers
+        $( function() {
+          $( "#cal_start_datepicker" ).datepicker( );
+        } );
+
+        $( function() {
+          $( "#cal_end_datepicker" ).datepicker( );
+        } );
+
+        $( function() {
+          $( "#cave_start_datepicker" ).datepicker( );
+        } );
+
+        $( function() {
+          $( "#cave_end_datepicker" ).datepicker( );
+        } );
+
+
+        $( function() {
+          $( "#tl_start_datepicker" ).datepicker( );
+        } );
+
+        $( function() {
+          $( "#tl_end_datepicker" ).datepicker( );
+        } );
+      } );
     } );
   } );
 </script>
